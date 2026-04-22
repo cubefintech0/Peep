@@ -113,10 +113,35 @@
             </div>
         </div>
 
-        <div id="qrcode" style="margin-bottom:20px;">
+ <div id="qrcode" style="margin-bottom:20px;">
             <p style="color:#888; font-size:13px; margin-bottom:12px;">Your QR Code</p>
             <div id="qrcode-img" style="display:inline-block; padding:12px; background:white; border-radius:12px;"></div>
         </div>
+
+        <button onclick="showEdit()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:transparent; color:#667eea; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:20px;">Edit Profile</button>
+
+        <div id="editForm" style="display:none; text-align:left;">
+            <h3 style="color:white; font-size:18px; margin-bottom:16px;">Edit Profile</h3>
+            <input type="text" id="editName" placeholder="Your full name" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
+            <input type="text" id="editHandle" placeholder="@yourhandle" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
+            <input type="text" id="editLocation" placeholder="Your city" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
+            <p style="color:#888; font-size:13px; margin-bottom:8px;">Select your platforms:</p>
+            <div class="platform-selector" id="editPlatformSelector">
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'instagram')"><i class="fab fa-instagram"></i> Instagram</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'facebook')"><i class="fab fa-facebook"></i> Facebook</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'tiktok')"><i class="fab fa-tiktok"></i> TikTok</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'x')"><i class="fab fa-x-twitter"></i> X</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'youtube')"><i class="fab fa-youtube"></i> YouTube</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'linkedin')"><i class="fab fa-linkedin"></i> LinkedIn</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'amazon')"><i class="fab fa-amazon"></i> Amazon</div>
+                <div class="platform-btn" onclick="toggleEditPlatform(this, 'snapchat')"><i class="fab fa-snapchat"></i> Snapchat</div>
+            </div>
+            <div id="editPlatformLinks" style="margin-bottom:12px;"></div>
+            <button onclick="saveEdit()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500; margin-top:8px;">Save Changes</button>
+            <button onclick="hideEdit()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:transparent; color:#888; font-size:15px; cursor:pointer; margin-top:8px;">Cancel</button>
+        </div>
+
     </div>
 </div>
 

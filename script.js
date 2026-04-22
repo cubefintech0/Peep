@@ -221,6 +221,7 @@ function showLanding() {
 }
 
 function  showDashboard(user, key) {
+    currentUserKey = key;
     document.getElementById("landing-page").style.display = "none";
     document.getElementById("auth-page").style.display = "none";
     document.getElementById("dashboard-page").style.display = "block";
@@ -249,3 +250,93 @@ function logout() {
     });
 }
 
+var currentUserKey ="";
+var editPlatforms =[];
+
+function showEdit() {
+    document.getElementById("editForm").style.display = "block";
+    document.getElementById("editName").value = document.getElementById("dash-handle").innerHTML.replace("@", "");
+    document.getElementById("editHandle").value = document.getElementById("dash-handle").innerHTML;
+    document.getElementById("editLocation").value = document.getElementById("dash-location").innerHTML;
+}
+
+function hideEdit() {
+    document.getElementById("editForm").style.display = "none";
+}
+
+function toggleEditPlatform(btn, platform) {
+    if (btn.classList.contains("selected")) {
+    btn.classList.remove("selected");
+    editPlatforms = editPlatforms.filter(function(p) {
+        return p !== platform;
+    });
+    var existingInput = document.getElementById("editlink-" + platform);
+    if (existingInput) {
+        existingInput.parentElement.remove();
+    }
+} else {
+    btn.classList.add("selected");
+    editPlatforms.push(platform);
+    var linkDiv = document.createElement("div");
+    linkDiv.style.marginBottom = "8px";
+    linkDiv.innerHTML = "<input type='text' id='editlink-" +platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
+    document.getElementById("editPlatformLinks").appendChild(linkDiv);
+ }
+
+}
+
+function saveEdit() {
+    var name = document.getElementById("editName").value;
+    var handle = document.getElementById("editHandle").value;
+    var location = document.getElementById("editLocation").value;
+
+    if (name === "" || handle === "" || location === "") {
+        alert("please fill all fields!");
+        return;
+    }
+
+    var platformIcons = {
+        "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "facebook": {icon: "fa-facebook", color: "#1877f2"},
+        "tiktok": {icon: "fa-tiktok", color: "#111"},
+        "x": {icon: "fa-x-twitter", color: "#111"},
+        "youtube": {icon: "fa-youtube", color: "#ff0000"},
+        "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
+        "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
+        "amazon": {icon: "fa-amazon", color: "#ff9900"},
+        "snapchat": {icon: "fa-snapchat", color: "#fffc00"}
+    };
+
+var apps = [];
+    for (var i = 0; i < editPlatforms.length; i++) {
+        var p = editPlatforms[i];
+        if (platformIcons[p]) {
+            var linkInput = document.getElementById("editlink-" + p);
+            var link = linkInput ? linkInput.value : "";
+            apps.push({
+                icon: platformIcons[p].icon,
+                name: p,
+                color: platformIcons[p].color,
+                link: link
+            });
+        }
+    }
+
+db.collection("users").doc(currentUserKey).update({
+    name: name,
+    handle: handle,
+    location: location,
+    apps: apps
+}).then(function() {
+    alert("profile updated!");
+    showDashboard({
+        name: name,
+        handle: handle,
+        location: location,
+        apps: apps
+    }, currentUserKey);
+    hideEdit();
+}).catch(function(error) {
+    alert("Error: " + error.message);
+});
+}
