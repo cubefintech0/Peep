@@ -6,76 +6,101 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <h1>peep</h1>
-    <p>One Identity. Everything you are. </p>
+<nav class="navbar">
+    <div class="logo">peep</div>
+    <button class="nav-btn">Join Peep</button>
+</nav> 
 
-<div class="container">
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder=" Search any name or @handle...">
-        <button onclick="search()" >Search</button>
+<div class="hero">
+    <h1>Your entire digital<br> world in one place</h1>
+    <p>One identity. Every platform. Verified.</p>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search any name or @handle...">
+        <button onclick="search()">Search</button>
+        </div>
+
     </div>
 
-<div class="register-box">
-    <h2>join peep</h2>
-    <input type="text" id="regName" placeholder="Your full name">
-    <input type="text" id="regHandle" placeholder="@yourhandle">
-    <input type="text" id="regLocation" placeholder="Your city">
-    <input type="text" id="regPlatforms"placeholder="Instagram, Tiktok, X...">
-    <button onclick="register()">join peep</button>
+<div class="login-box">
+    <h2>Sign In</h2>
+    <input type="email" id="loginEmail" placeholder="Your email">
+    <input type="password" id="loginPassword" placeholder="Your password">
+    <button onclick="login()">Sign In</button>
 </div>
 
+<div class="main-content">
+    <div class="register-box">
+        <h2>Join Peep</h2>
+        <input type="email" id="regEmail" placeholder="Your email">
+        <input type="password" id="regPassword" placeholder="Create password">
+        <input type="text" id="regName" placeholder="Your full name">
+        <input type="text" id="regHandle" placeholder="@yourhandle">
+        <input type="text" id="regLocation" placeholder="Your city">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="togglePlatform(this, 'instagram')"><i class="fab fa-instagram"></i> Instagram</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'facebook')"><i class="fab fa-facebook"></i> Facebook</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'tiktok')"><i class="fab fa-tiktok"></i> TikTok</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'x')"><i class="fab fa-x-twitter"></i> X</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'youtube')"><i class="fab fa-youtube"></i> YouTube</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'linkedin')"><i class="fab fa-linkedin"></i> LinkedIn</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'amazon')"><i class="fab fa-amazon"></i> Amazon</div>
+            <div class="platform-btn" onclick="togglePlatform(this, 'snapchat')"><i class="fab fa-snapchat"></i> Snapchat</div> 
+        </div>
+        <div id="platformLinks" style="margin-bottom: 12px;"></div>
+        <button onclick="register()">Join Peep</button>
+    </div>
 </div>
 
-<div class="phone-screen">
-    <div class="phone-header">
-        <div class="phone-avatar">A</div>
-        <div class="phone-info">
-            <h3>@ahmad</h3>
-            <p id="phone-location">London</p>
-            <span class="phone-verified">✓ Verified</span>
 
+
+    <div style="text-align: center;">
+        <button id="clearBtn" onclick="clearSearch()" style="display: none; margin: 20px auto; padding: 10px 24px; border-radius: 20px; border: 1px solid #2e2e3e; background: transparent; color: #888; cursor: pointer; font-size: 14px;">Clear</button>
+        </div>
+    <div class="phone-screen">
+        <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div class="phone-info">
+                <h3>@ahmad</h3>
+                <p id="phone-location">London</p>
+                <span class="phone-verified">✓ Verified</span>
         </div>
     </div>
+    <div class="apps-grid"></div>
+</div>    
 
 
-    <div class="apps-grid">
-        <div class="app-icon" style="background: linear-gradient(135deg, #f09433, #dc2743)">
-            <i class="fab fa-instagram"></i>
-            <span>Instagram</span>
-         </div>
-    <div class="app-icon" style="background: #1877f2">
-        <i class="fab fa-facebook"></i>
-        <span>Facebook</span>
-    </div>
-    <div class="app-icon" style="background: #111">
-        <i class="fab fa-tiktok"></i>
-        <span>TikTok</span>
-    </div>
-    <div class="app-icon" style="background: #111">
-        <i class="fab fa-x-twitter"></i>
-        <span>X</span>
-    </div>
-    <div class="app-icon" style="background: #25d366">
-        <i class="fab fa-whatsapp"></i>
-        <span>WhatsApp</span>
-    </div>
-    <div class="app-icon" style="background: #ff0000">
-        <i class="fab fa-youtube"></i>
-        <span>YouTube</span>
-    </div>
-    <div class="app-icon" style="background: #0077b5">
-        <i class="fab fa-linkedin"></i>
-        <span>LinkedIn</span>
-    </div>
-    <div class="app-icon" style="background: #ff9900">
-        <i class="fab fa-amazon"></i>
-        <span>Amazon</span>
-    </div>
-</div>
-</div>
- 
 <div id="result"></div>
+
+<div id="peepLink" style="display:none; text-align:center; margin: 20px auto; width: 400px;">
+    <p style="color:#888; font-size: 13px; margin-bottom:8px;">Your Peep Link</p>
+    <div style="display:flex; gap:8px; justify-content: center;">
+        <input type="text" id="linkInput" readonly style="flex:1; padding:10px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#12121f; color:#667eea; font-size:13px; outline:none;">
+        <button onclick="copyLink()" style="padding:10px 20px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; cursor:pointer; font-size:13px;">Copy</button>   
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAef4_Ao42IWZxT43HTeu0JCWx2tUDoOhk",
+    authDomain: "peep-8ea2f.firebaseapp.com",
+    projectId: "peep-8ea2f",
+    storageBucket: "peep-8ea2f.firebasestorage.app",
+    messagingSenderId: "719628348290",
+    appId: "1:719628348290:web:f3d43265ee0b1cd2ecbd9b"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
 <script src="script.js"></script>
+
+
+
 </body>
 </html>
 
