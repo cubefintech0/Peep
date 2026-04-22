@@ -119,13 +119,7 @@ function login() {
             querySnapshot.forEach(function(doc) {
                 var user = doc.data();
                 var key = doc.id;
-                updatePhone(user);
-                document.querySelector(".phone-screen").style.display = "block";
-                document.getElementById("clearBtn").style.display = "block";
-                var userLink = window.location.href.split('?')[0] + "?user=" + key;
-                document.getElementById("linkInput").value = userLink;
-                document.getElementById("peepLink").style.display = "block";
-                generateQR(userLink);
+                showDashboard(user, key);
             });
         });
     }).catch(function(error) {
@@ -208,3 +202,52 @@ function generateQR(link) {
     
     document.getElementById("qrcode").style.display = "block";
 }
+
+function showAuth(type) {
+    document.getElementById("landing-page").style.display = "none";
+    document.getElementById("auth-page").style.display = "block";
+    document.getElementById("dashboard-page").style.display ="none";
+    if (type === "login") {
+        document.getElementById("login-form").style.display = "block";
+        document.getElementById("register-form").style.display = "none";   
+    } else {
+        document.getElementById("login-form").style.display ="none";
+        document.getElementById("register-form").style.display = "block";
+    }
+}
+
+function showLanding() {
+    document.getElementById("landing-page").style.display = "block";
+    document.getElementById("auth-page").style.display = "none";
+    document.getElementById("dashboard-page").style.display = "none";
+}
+
+function  showDashboard(user, key) {
+    document.getElementById("landing-page").style.display = "none";
+    document.getElementById("auth-page").style.display = "none";
+    document.getElementById("dashboard-page").style.display = "block";
+    document.getElementById("dash-avatar").innerHTML = user.name.charAt(0);
+    document.getElementById("dash-handle").innerHTML = user.handle;
+    document.getElementById("dash-location").innerHTML = user.location;
+    var appsHTML ="";
+    for (var i = 0; i < user.apps.length; i++) {
+        var app = user.apps[i];
+        var link = app.link ? app.link : "#";
+        appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
+            "<i class='fab " +app.icon +"'></i>" +
+            "<span>" + app.name + "</span>" +
+        "</div>";
+    }
+
+    document.getElementById("dash-apps").innerHTML = appsHTML;
+    var userLink = window.location.href.split('?')[0] + "?user=" + key;
+    document.getElementById("linkInput").value = userLink;
+    generateQR(userLink);
+}
+
+function logout() {
+    firebase.auth().signOut().then(function() {
+        showLanding();
+    });
+}
+
