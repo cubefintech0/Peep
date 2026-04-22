@@ -4,6 +4,7 @@
     <title>PeeP</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 <nav class="navbar">
@@ -80,6 +81,10 @@
     </div>
 </div>
 
+<div id="qrcode" style="display: none; text-align: center; margin: 20px auto;">
+    <p style="color:#888; font-size:13px; margin-bottom:12px;">Your QR Code</p>
+    <div id="qrcode-img" style="display:inline-block; padding:12px; background: white; border-radius: 12px; "></div>
+</div>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>

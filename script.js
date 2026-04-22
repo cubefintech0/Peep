@@ -86,6 +86,7 @@ function register() {
             var userLink = window.location.href.split('?')[0] + "?user=" + key;
             document.getElementById("linkInput").value = userLink;
             document.getElementById("peepLink").style.display = "block";
+            generateQR(userLink);
             document.getElementById("regEmail").value = "";
             document.getElementById("regPassword").value = "";
             document.getElementById("regName").value = "";
@@ -124,6 +125,7 @@ function login() {
                 var userLink = window.location.href.split('?')[0] + "?user=" + key;
                 document.getElementById("linkInput").value = userLink;
                 document.getElementById("peepLink").style.display = "block";
+                generateQR(userLink);
             });
         });
     }).catch(function(error) {
@@ -193,4 +195,16 @@ window.onload = function() {
         document.getElementById("searchInput").value = user;
         search();
     }
+}
+
+
+function generateQR(link) {
+    document.getElementById("qrcode-img").innerHTML = "";
+    new QRCode(document.getElementById("qrcode-img"), {
+        text: link,
+        width: 160,
+        height: 160,
+    });
+    
+    document.getElementById("qrcode").style.display = "block";
 }
