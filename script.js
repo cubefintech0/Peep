@@ -83,16 +83,14 @@ function register() {
             apps: apps,
             email: email
         }).then(function() {
-            var userLink = window.location.href.split('?')[0] + "?user=" + key;
-            document.getElementById("linkInput").value = userLink;
-            document.getElementById("peepLink").style.display = "block";
-            generateQR(userLink);
-            document.getElementById("regEmail").value = "";
-            document.getElementById("regPassword").value = "";
-            document.getElementById("regName").value = "";
-            document.getElementById("regHandle").value = "";
-            document.getElementById("regLocation").value = "";
-            selectedplatforms = [];
+            showDashboard({
+                name: name,
+                handle: handle,
+                location: location,
+                apps: apps
+
+            }, key);
+            selectedplatforms =[];
             var buttons = document.querySelectorAll(".platform-btn");
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].classList.remove("selected");
