@@ -34,7 +34,7 @@ function search() {
             document.getElementById("searchModal").style.display = "flex";
         }
     }).catch(function(error) {
-        alert("Error:" + error);
+        showToast("Error:" + error);
     });
 
 }
@@ -48,7 +48,7 @@ function register() {
     var platforms = selectedplatforms.join(", ");
 
     if (email === "" || password === "" || name === "" || handle === "" || location === "" || selectedplatforms.length === 0) {
-        alert("Please fill all fields!");
+        showToast("Please fill all fields!");
         return;
     }
 
@@ -107,7 +107,7 @@ function register() {
             }
         });
     }).catch(function(error) {
-        alert("Error: " + error.message);
+        showToast("Error: " + error.message);
     });
 }
 
@@ -116,7 +116,7 @@ function login() {
     var password = document.getElementById("loginPassword").value;
 
     if (email === "" || password === "") {
-        alert("Please enter email and password!");
+        showToast("Please enter email and password!");
         return;
     }
 
@@ -128,10 +128,11 @@ function login() {
                 var user = doc.data();
                 var key = doc.id;
                 showDashboard(user, key);
+                showToast("✓ Welcome back, " + user.name + "!");
             });
         });
     }).catch(function(error) {
-        alert("Error: " + error.message);
+        showToast("Error: " + error.message);
     });
 }
 
@@ -186,7 +187,7 @@ function copyLink() {
     var linkInput = document.getElementById("linkInput");
     linkInput.select();
     document.execCommand("copy");
-    alert("Link copied!");
+    showToast("Link copied!");
 }
 
 window.onload = function() {
@@ -333,7 +334,7 @@ function saveEdit() {
     var location = document.getElementById("editLocation").value;
 
     if (name === "" || handle === "" || location === "") {
-        alert("please fill all fields!");
+        showToast("please fill all fields!");
         return;
     }
 
@@ -370,7 +371,7 @@ db.collection("users").doc(currentUserKey).update({
     location: location,
     apps: apps
 }).then(function() {
-    alert("profile updated!");
+    showToast("profile updated!");
     showDashboard({
         name: name,
         handle: handle,
@@ -379,6 +380,15 @@ db.collection("users").doc(currentUserKey).update({
     }, currentUserKey);
     hideEdit();
 }).catch(function(error) {
-    alert("Error: " + error.message);
+    showToast("Error: " + error.message);
 });
+}
+
+function showToast(message) {
+    var toast = document.getElementById("toast");
+    document.getElementById("toast-message").innerHTML = message;
+    toast.style.display = "block";
+    setTimeout(function() {
+        toast.style.display = "none";
+    }, 3000 );
 }
