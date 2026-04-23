@@ -18,6 +18,7 @@ function search() {
         if (doc.exists) {
             var user = doc.data();
             document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
+            currentModalKey = name;
             document.getElementById("modal-handle").innerHTML = user.handle;
             document.getElementById("modal-location").innerHTML = user.location;
             var appsHTML ="";
@@ -392,4 +393,16 @@ function showToast(message) {
     setTimeout(function() {
         toast.style.display = "none";
     }, 3000 );
+}
+
+
+var currentModalKey ="";
+
+function shareProfile() {
+    var shareLink = window.location.href.split('?')[0] + "?user=" + currentModalKey;
+    navigation.clipboard.writeText(shareLink).then(function() {
+        showToast("✓ Profile link copied!");   
+    }).catch(function() {
+        showToast("✓ Link: " + shareLink);
+    });
 }
