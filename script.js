@@ -19,8 +19,10 @@ function search() {
             var user = doc.data();
             document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
             currentModalKey = name;
+            document.getElementById("modal-share-btn").style.display = "block";
             document.getElementById("modal-handle").innerHTML = user.handle;
             document.getElementById("modal-location").innerHTML = user.location;
+            document.getElementById("modal-verified").style.display = "inline-block";
             var appsHTML ="";
             for (var i = 0; i <user.apps.length; i++) {
                 var app = user.apps[i];
@@ -31,7 +33,13 @@ function search() {
             document.getElementById("modal-apps").innerHTML = appsHTML;
             document.getElementById("searchModal").style.display = "flex";
         } else {
-            document.getElementById("result").innerHTML = "<p>No profile found for: " + name + "</p>";
+            document.getElementById("modal-avatar").innerHTML = "?";
+            document.getElementById("modal-handle").innerHTML = "";
+            document.getElementById("modal-location").innerHTML = "";
+            document.getElementById("modal-verified").style.display = "none";
+            document.getElementById("result").innerHTML = "<div style='text-align:center; padding:20px 0;'><div style='font-size:40px; margin-bottom:12px;'>🔍</div><p style='color:white; font-size:16px; font-weight:600; margin-bottom:8px;'>No profile found</p><p style='color:#888; font-size:13px;'>\"" + name + "\" is not on Peep yet</p></div>";
+            document.getElementById("modal-apps").innerHTML = "";
+            document.getElementById("modal-share-btn").style.display ="none";
             document.getElementById("searchModal").style.display = "flex";
         }
     }).catch(function(error) {
