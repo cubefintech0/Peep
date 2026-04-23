@@ -416,3 +416,33 @@ function shareProfile() {
     showToast("✓ Link: " + shareLink);
     
 }
+
+
+function loginWithGoogle() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+    .then(function(result) {
+        var user = result.user;
+        var email = user.email;
+        var name = user.displayName;
+
+        db.collection("users").where("email", "==", email).get()
+        .then(function(querySnapshot) {
+            if (querySnapshot.empty) {
+                showAuth('register');
+                document.getElementById("regName").value = name;
+                document.getElementById("regEmail").value = email;
+                showToast("Welcome! Please Complete your profile 👋");  
+            } else {
+                querySnapshot.forEach(function(doc) {
+                    var userData = doc.data();
+                    var key = doc.id;
+                    showDashboard(userData, key);
+                    showToast("✓ Welcome back, " + userData.name + "!");
+                });
+            }
+        });
+    }).catch(function(error) {
+        showToast("Error: " + error.message);
+    });
+}

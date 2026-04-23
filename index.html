@@ -81,6 +81,10 @@
             <p style="color:#888; margin-bottom:32px;">Sign in to your Peep account</p>
             <input type="email" id="loginEmail" placeholder="Your email" style="width:100%; padding:14px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#12121f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <input type="password" id="loginPassword" placeholder="Your password" style="width:100%; padding:14px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#12121f; color:white; font-size:14px; margin-bottom:20px; display:block; outline:none;">
+            <button onclick="loginWithGoogle()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:#12121f; color:white; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <img src="https://www.google.com/favicon.ico" style="width:18px; height:18px;">
+            </button>
+            <div style="text-align: center; color:#555; font-size:13px; margin-bottom:12px;">or</div>
             <button onclick="login()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500;">Sign In</button>
             <p style="text-align:center; color:#888; margin-top:20px; font-size:14px;">Don't have an account? <span onclick="showAuth('register')" style="color:#667eea; cursor:pointer;">Join Peep</span></p>
             </div>
@@ -106,6 +110,10 @@
                 <div class="platform-btn" onclick="togglePlatform(this, 'snapchat')"><i class="fab fa-snapchat"></i> Snapchat</div>
             </div>
             <div id="platformLinks" style="margin-bottom:12px;"></div>
+            <button onclick="loginWithGoogle()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:#12121f; color:white; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <img src="https://www.google.com/favicon.ico" style="width:18px; height:18px;"> Continue with Google
+            </button>
+            <div style="text-align:center; color:#555; font-size:13px; margin-bottom:12px;">or</div>
             <button onclick="register()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500; margin-top:8px;">Join Peep</button>
             <p style="text-align:center; color:#888; margin-top:20px; font-size:14px;">Already have an account? <span onclick="showAuth('login')" style="color:#667eea; cursor:pointer;">Sign In</span></p>
         </div>
