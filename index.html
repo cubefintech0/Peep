@@ -7,43 +7,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
+
 <div id="landing-page">
     <nav class="navbar">
         <div class="logo">PeeP</div>
         <div>
-             <button class="nav-btn" onclick="showAuth('login')" style="margin-right:8px; background:transparent; border:1px solid #667eea; color:#667eea;">Sign In</button>
-            <button class="nav-btn" onclick="showAuth('register')">Join Peep</button>
-            </div>
+            <button class="nav-btn" onclick="showAuth('login')" style="margin-right:8px; background:transparent; border:1px solid #667eea; color:#667eea;">Sign In</button>
+            <button class="nav-btn" onclick="showAuth('register')">Join PeeP</button>
+        </div>
     </nav>
 
     <div class="hero">
-        <h1>Your Entire Digital <br> World In One Place</h1>
-        <p>One Identity . Every Platform. Verified.</p>
+        <div class="hero-badge">🌐 The Future of digital identity</div>
+        <h1>One identity.<br> Every platform.<br>Yours forever.</h1>
+        <p>Stop sharing 10 different links. one PeeP profile connects everything you are online - verified, decenteralized, and always yours.</p>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search any name or @handle...">
             <button onclick="search()">Search</button>
         </div>
-    </div>
+        <p style="color:#555; font-size:13px; margin-top: 12px;">Try searching ahmad, sara, zubair</p>
+        </div>
 
-    <div style="text-align:center;">
-        <button id="clearBtn" onclick="clearSearch()" style="display:none;margin:20px auto; padding:10px 24px; border-radius:20px; border:1px solid #2e2e3e; background:transparent; color:#888; cursor:pointer; font-size:14px;">Clear</button>
-    </div>
-
-    <div class="phone-screen">
-        <div class="phone-header">
-            <div class="phone-avatar">A</div>
-            <div class="phone-info">
-                <h3>@ahmad</h3>
-                <p id="phone-location">London</p>
-                <span class="phone-verified">✓ Verified</span>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>All in one place</h3>
+                <p>Instagram, Tiktok, Linkedin, Amazon - every platform you own, in one verified profile.</p>
             </div>
-    </div>
-    <div class="apps-grid"></div>
-    </div>
 
-    <div id="result"></div>
-    </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>You own your data</h3>
+                <p>Decenteralized and secure. No company controls your identity - only you do.</p>
+            </div>
+        </div>
 
+        <div style="text-align: center;">
+            <button id="clearBtn" onclick="clearSearch()" style="display:none; margin:20px auto; padding:10px 24px; border-radius:20px; border:1px solid #2e2e3e; background:transparent; color:#888; cursor:pointer; font-size:14px;">Clear</button>
+        </div>
+     <div id="searchModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; width:320px; padding:24px; position:relative;">
+        <button onclick="clearSearch()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; color:#888; font-size:18px; cursor:pointer;">✕</button>
+        <div class="phone-header">
+            <div class="phone-avatar" id="modal-avatar">A</div>
+            <div class="phone-info">
+                <h3 id="modal-handle" style="color: white; font-size:15px; margin:0 0 4px;">@handle</h3>
+                <p id="modal-location" style="color:#888; font-size:12px; margin: 0 0 4px;"></p>
+                <span class="phone-verified">✓Verified</span>
+            </div>
+        </div>
+        <div class="apps-grid" id="modal-apps"></div>
+        <div id="result" style="color:#888; font-size: 14px; text-align:center;"></div>
+    </div>
+</div>
+</div>
+   
     <div id="auth-page" style="display:none;">
         <nav class="navbar">
             <div class="logo">PeeP</div>

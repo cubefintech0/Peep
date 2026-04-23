@@ -13,20 +13,32 @@ function getPlatforms(platforms) {
 
 function search() {
     document.getElementById("result").innerHTML = "";
-    var name = document.getElementById("searchInput").value.toLowerCase();
+    var name = document.getElementById("searchInput").value.toLocaleLowerCase();
     db.collection("users").doc(name).get().then(function(doc) {
         if (doc.exists) {
             var user = doc.data();
-            updatePhone(user);
-            document.querySelector(".phone-screen").style.display = "block";
-            document.getElementById("clearBtn").style.display = "block";
+            document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
+            document.getElementById("modal-handle").innerHTML = user.handle;
+            document.getElementById("modal-location").innerHTML = user.location;
+            var appsHTML ="";
+            for (var i = 0; i <user.apps.length; i++) {
+                var app = user.apps[i];
+                var link = app.link ? app.link : "#";
+                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">"
+                    "<i class='fab " + app.icon + "'></i>" +
+                    "<span>" + app.name + "</span>" +
+                "</div>";
+            }
+            document.getElementById("modal-apps").innerHTML = appsHTML;
+            document.getElementById("searchModal").style.display = "flex";
         } else {
-            document.querySelector(".phone-screen").style.display = "none";
             document.getElementById("result").innerHTML = "<p>No profile found for: " + name + "</p>";
+            document.getElementById("searchModal").style.display = "flex";
         }
     }).catch(function(error) {
-        alert("Error: " + error);
+        alert("Error:" + error);
     });
+
 }
 
 function register() {
@@ -168,8 +180,7 @@ function togglePlatform(btn, platform) {
 
 function clearSearch() {
     document.getElementById("searchInput").value = "";
-    document.getElementById("clearBtn").style.display = "none";
-    document.querySelector(".phone-screen").style.display = "none";
+    document.getElementById("searchModal").style.display = "none";
     document.getElementById("result").innerHTML = "";
 }
 
@@ -232,10 +243,10 @@ function  showDashboard(user, key) {
     for (var i = 0; i < user.apps.length; i++) {
         var app = user.apps[i];
         var link = app.link ? app.link : "#";
-        appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
-            "<i class='fab " +app.icon +"'></i>" +
-            "<span>" + app.name + "</span>" +
-        "</div>";
+       appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
+           "<i class='fab " + app.icon + "'></i>" +
+           "<span>" + app.name + "</span>" +
+"</div>";
     }
 
     document.getElementById("dash-apps").innerHTML = appsHTML;
