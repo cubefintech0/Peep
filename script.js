@@ -258,7 +258,40 @@ function showEdit() {
     document.getElementById("editName").value = document.getElementById("dash-handle").innerHTML.replace("@", "");
     document.getElementById("editHandle").value = document.getElementById("dash-handle").innerHTML;
     document.getElementById("editLocation").value = document.getElementById("dash-location").innerHTML;
+
+    editPlatforms = [];
+    document.getElementById("editPlatformLinks").innerHTML ="";
+
+    db.collection("users").doc(currentUserKey).get().then(function(doc) {
+        if (doc.exists) {
+            var user = doc.data();
+            document.getElementById("editName").value = user.name;
+            document.getElementById("editHandle").value = user.handle;
+            document.getElementById("editLocation").value = user.location;
+
+            var buttons = document.querySelectorAll("#editPlatformSelector .platform-btn");
+            buttons.forEach(function(btn) {
+                btn.classList.remove("selected");
+            });
+
+            user.apps.forEach(function(app) {
+                var platform = app.name.toLowerCase();
+                editPlatforms.push(platform);
+                var btn = document.querySelector("#editPlatformSelector [onclick*='" + platform + "']");
+                if (btn) btn.classList.add("selected");
+                var linkDiv = document.createElement("div");
+                linkDiv.style.marginBottom = "8px";
+                linkDiv.innerHTML = "<input type='text' id='editlink-" + platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;' value='" + app.link + "'>";
+                document.getElementById("editPlatformLinks").appendChild(linkDiv);
+            });
+        }
+    });
+
+
+
+
 }
+
 
 function hideEdit() {
     document.getElementById("editForm").style.display = "none";
