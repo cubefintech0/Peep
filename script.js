@@ -24,10 +24,8 @@ function search() {
             for (var i = 0; i <user.apps.length; i++) {
                 var app = user.apps[i];
                 var link = app.link ? app.link : "#";
-                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">"
-                    "<i class='fab " + app.icon + "'></i>" +
-                    "<span>" + app.name + "</span>" +
-                "</div>";
+                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\"><i class='fab " + app.icon + "'></i><span>" + app.name + "</span></div>";
+            
             }
             document.getElementById("modal-apps").innerHTML = appsHTML;
             document.getElementById("searchModal").style.display = "flex";
