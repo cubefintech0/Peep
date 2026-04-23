@@ -232,6 +232,7 @@ function showLanding() {
 
 function  showDashboard(user, key) {
     currentUserKey = key;
+    document.getElementById("dash-welcome").innerHTML = "Welcome back, " + user.name + " 👋";
     document.getElementById("landing-page").style.display = "none";
     document.getElementById("auth-page").style.display = "none";
     document.getElementById("dashboard-page").style.display = "block";
