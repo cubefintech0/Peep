@@ -112,35 +112,39 @@
         <button class="nav-btn" onclick="logout()" style="background:transparent; border:1px solid #667eea; color:#667eea;">Sign Out</button>
     </nav>
 
-    <div style="max-width:400px; margin:40px auto; padding:0 20px; text-align:center;">
-        <p id="dash-welcome" style="color:#888; font-size:14px; margin-bottom:20px;">Welcome back 👋</p>
-        <div class="phone-screen" id="dashboard-phone" style="display:block; margin:0 auto 30px;">
-            <div class="phone-header">
-                <div class="phone-avatar" id="dash-avatar">A</div>
-                <div class="phone-info">
-                    <h3 id="dash-handle">@handle</h3>
-                    <p id="dash-location">City</p>
+    <div style="max-width:480px; margin:40px auto; padding:0 20px;">
+        
+        <p id="dash-welcome" style="color:#888; font-size:14px; margin-bottom:24px; text-align:center;">Welcome back 👋</p>
+
+        <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px;">
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                <div class="phone-avatar" id="dash-avatar" style="width:60px; height:60px; font-size:24px; flex-shrink:0;">A</div>
+                <div>
+                    <h2 id="dash-handle" style="color:white; font-size:20px; font-weight:700; margin:0 0 4px;">@handle</h2>
+                    <p id="dash-location" style="color:#888; font-size:13px; margin:0 0 6px;">City</p>
                     <span class="phone-verified">✓ Verified</span>
                 </div>
             </div>
             <div class="apps-grid" id="dash-apps"></div>
         </div>
-<div id="peepLink" style="margin-bottom:20px;">
-            <p style="color:#888; font-size:13px; margin-bottom:8px;">Your Peep Link</p>
+
+        <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px;">
+            <p style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Your Peep Link</p>
             <div style="display:flex; gap:8px;">
-                <input type="text" id="linkInput" readonly style="flex:1; padding:10px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#12121f; color:#667eea; font-size:13px; outline:none;">
+                <input type="text" id="linkInput" readonly style="flex:1; padding:10px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:#667eea; font-size:13px; outline:none;">
                 <button onclick="copyLink()" style="padding:10px 20px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; cursor:pointer; font-size:13px;">Copy</button>
             </div>
         </div>
 
- <div id="qrcode" style="margin-bottom:20px;">
-            <p style="color:#888; font-size:13px; margin-bottom:12px;">Your QR Code</p>
+        <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px; text-align:center;">
+            <p style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Your QR Code</p>
             <div id="qrcode-img" style="display:inline-block; padding:12px; background:white; border-radius:12px;"></div>
+            <p style="color:#555; font-size:11px; margin-top:12px;">Scan to open your Peep profile</p>
         </div>
 
-        <button onclick="showEdit()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:transparent; color:#667eea; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:20px;">Edit Profile</button>
+        <button onclick="showEdit()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:transparent; color:#667eea; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:12px;">✏️ Edit Profile</button>
 
-        <div id="editForm" style="display:none; text-align:left;">
+        <div id="editForm" style="display:none; background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px; text-align:left;">
             <h3 style="color:white; font-size:18px; margin-bottom:16px;">Edit Profile</h3>
             <input type="text" id="editName" placeholder="Your full name" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <input type="text" id="editHandle" placeholder="@yourhandle" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
@@ -183,6 +187,13 @@
 </script>
 
 <script src="script.js"></script>
+
+<footer style="text-align:center; padding:40px 20px; border-top:1px solid #1e1e2e; margin-top:40px;">
+    <div style="font-size:20px; font-weight:700; background:linear-gradient(135deg,#667eea,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px;">Peep</div>
+    <p style="color:#555; font-size:13px; margin-bottom:8px;">One identity. Every platform. Yours forever.</p>
+    <p style="color:#333; font-size:12px;">© 2025 Peep. All rights reserved.</p>
+</footer>
+
 
 <div id="toast" style="display:none; position:fixed; bottom:30px; right:30px; background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:14px 24px; border-radius:12px; font-size:14px; z-index:9999; box-shadow:0 4px 20px rgba(102,126,234,0.4); pointer-events:none;">
     <span id="toast-message">Message here</span>

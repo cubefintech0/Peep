@@ -209,7 +209,6 @@ function generateQR(link) {
         height: 160,
     });
     
-    document.getElementById("qrcode").style.display = "block";
 }
 
 function showAuth(type) {
