@@ -400,9 +400,12 @@ var currentModalKey ="";
 
 function shareProfile() {
     var shareLink = window.location.href.split('?')[0] + "?user=" + currentModalKey;
-    navigation.clipboard.writeText(shareLink).then(function() {
-        showToast("✓ Profile link copied!");   
-    }).catch(function() {
-        showToast("✓ Link: " + shareLink);
-    });
+    var tempInput = document.createElement("input");
+    tempInput.value = shareLink;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    showToast("✓ Link: " + shareLink);
+    
 }
