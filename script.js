@@ -18,6 +18,17 @@ function search() {
         if (doc.exists) {
             var user = doc.data();
             document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
+            if (user.photo) {
+                var modalAvatar = document.getElementById("modal-avatar");
+                modalAvatar.innerHTML ="";
+                modalAvatar.style.backgroundImage = "url("+ user.photo + ")";
+                modalAvatar.style.backgroundSize = "cover";
+                modalAvatar.style.backgroundPosition = "center";
+            } else {
+                var modalAvatar = document.getElementById("modal-avatar");
+                modalAvatar.innerHTML = user.name.charAt(0);
+                modalAvatar.style.backgroundImage ="";
+            }
             currentModalKey = name;
             document.getElementById("modal-share-btn").style.display = "block";
             document.getElementById("modal-handle").innerHTML = user.handle;
@@ -244,7 +255,17 @@ function  showDashboard(user, key) {
     document.getElementById("landing-page").style.display = "none";
     document.getElementById("auth-page").style.display = "none";
     document.getElementById("dashboard-page").style.display = "block";
-    document.getElementById("dash-avatar").innerHTML = user.name.charAt(0);
+    var avatar = document.getElementById("dash-avatar");
+    avatar.style.backgroundImage = "";
+    avatar.style.backgroundSize = "";
+    avatar.style.backgroundPosition = "";
+    avatar.innerHTML = user.name.charAt(0) + "<div style='position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:white; font-size:8px; text-align:center; padding:2px;'>Edit</div>";
+    if (user.photo) {
+    avatar.innerHTML = "<div style='position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:white; font-size:8px; text-align:center; padding:2px;'>Edit</div>";
+    avatar.style.backgroundImage = "url(" + user.photo + ")";
+    avatar.style.backgroundSize = "cover";
+    avatar.style.backgroundPosition = "center";
+}
     document.getElementById("dash-handle").innerHTML = user.handle;
     document.getElementById("dash-location").innerHTML = user.location;
     var appsHTML ="";
@@ -446,3 +467,43 @@ function loginWithGoogle() {
         showToast("Error: " + error.message);
     });
 }
+
+
+function uploadPhoto(input) {
+    var file = input.files[0];
+    if (!file)  return;
+
+    showToast("uploading photo...");
+
+    var formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "i7q7kwai");
+    formData.append("cloud_name", "dlrhbfvyb");
+
+    fetch("https://api.cloudinary.com/v1_1/dlrhbfvyb/image/upload", {
+        method: "POST",
+        body: formData
+    })
+     .then(function(response) { return response.json(); })
+     .then(function(data) {
+        var photoUrl =data.secure_url;
+        var avatar = document.getElementById("dash-avatar");
+        avatar.innerHTML = "";
+        avatar.style.backgroundImage = "url(" + photoUrl + ")";
+        avatar.style.backgroundSize = "cover";
+        avatar.style.backgroundPosition = "center";
+
+        db.collection("users").doc(currentUserKey).update({
+            photo: photoUrl
+     }).then(function() {
+        showToast("✓ Photo Updated!");
+    });
+ })
+ .catch(function(error) {
+    showToast("Error uploading photo!");
+ });
+}
+
+
+
+     

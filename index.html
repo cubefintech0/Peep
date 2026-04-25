@@ -132,8 +132,12 @@
 
         <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px;">
             <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
-                <div class="phone-avatar" id="dash-avatar" style="width:60px; height:60px; font-size:24px; flex-shrink:0;">A</div>
-                <div>
+                <div style="position:relative; width:70px; height:70px; flex-shrink:0;">
+                    <div class="phone-avatar" id="dash-avatar" style="width:70px; height:70px; font-size:28px;">A</div>
+                    <div onclick="document.getElementById('photoInput').click()" style="position:absolute; bottom:0; right:0; width:24px; height:24px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid #12121f; font-size:12px;">📷</div>
+               </div>
+               <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="uploadPhoto(this)">
+               <div>
                     <h2 id="dash-handle" style="color:white; font-size:20px; font-weight:700; margin:0 0 4px;">@handle</h2>
                     <p id="dash-location" style="color:#888; font-size:13px; margin:0 0 6px;">City</p>
                     <span class="phone-verified">✓ Verified</span>

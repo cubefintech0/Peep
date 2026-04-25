@@ -210,6 +210,9 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: 600;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
 }
 
 .phone-info p {
@@ -367,3 +370,4 @@ body {
     color: #888;
     line-height: 1.6;
 }
+
