@@ -17,6 +17,11 @@ function search() {
     db.collection("users").doc(name).get().then(function(doc) {
         if (doc.exists) {
             var user = doc.data();
+            var user = doc.data();
+            var modalAvatar = document.getElementById("modal-avatar");
+            modalAvatar.style.backgroundImage = "";
+            modalAvatar.style.backgroundSize = "";
+            modalAvatar.style.backgroundPosition = "";
             document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
             if (user.photo) {
                 var modalAvatar = document.getElementById("modal-avatar");
@@ -300,6 +305,14 @@ function showEdit() {
     document.getElementById("editLocation").value = document.getElementById("dash-location").innerHTML;
 
     editPlatforms = [];
+    
+    var editAvatar = document.getElementById("edit-avatar");
+    editAvatar.style.backgroundImage ="";
+    editAvatar.innerHTML = document.getElementById("dash-avatar").innerHTML || "";
+    editAvatar.style.backgroundImage = document.getElementById("dash-avatar").style.backgroundImage;
+    editAvatar.style.backgroundSize = "cover";
+    editAvatar.style.backgroundPosition = "center";
+    
     document.getElementById("editPlatformLinks").innerHTML ="";
 
     db.collection("users").doc(currentUserKey).get().then(function(doc) {
@@ -504,6 +517,47 @@ function uploadPhoto(input) {
  });
 }
 
+
+function uploadEditPhoto(input) {
+    var file = input.files[0];
+    if (!file) return;
+
+    showToast("Uploading photo...");
+
+    var formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "i7q7kwai");
+    formData.append("cloud_name", "dlrhbfvyb");
+
+    fetch("https://api.cloudinary.com/v1_1/dlrhbfvyb/image/upload", {
+        method: "POST",
+        body: formData
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+        var photoUrl = data.secure_url;
+        var editAvatar = document.getElementById("edit-avatar");
+        editAvatar.innerHTML = "";
+        editAvatar.style.backgroundImage = "url(" + photoUrl + ")";
+        editAvatar.style.backgroundSize = "cover";
+        editAvatar.style.backgroundPosition = "center";
+
+        var dashAvatar = document.getElementById("dash-avatar");
+        dashAvatar.innerHTML = "";
+        dashAvatar.style.backgroundImage = "url(" + photoUrl + ")";
+        dashAvatar.style.backgroundSize = "cover";
+        dashAvatar.style.backgroundPosition = "center";
+
+        db.collection("users").doc(currentUserKey).update({
+            photo:photoUrl
+        }).then(function() {
+            showToast("✓ Photo updated!");
+        });
+    })
+    .catch(function(error) {
+        showToast("Error uploading photo!");
+    });
+}
 
 
      
