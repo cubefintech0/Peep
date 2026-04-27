@@ -42,10 +42,33 @@ function search() {
             var appsHTML ="";
             for (var i = 0; i <user.apps.length; i++) {
                 var app = user.apps[i];
-                var link = app.link ? app.link : "#";
+                var link = "#";
+                if (app.link) {
+                    if (app.icon === "fa-envelope") {
+                       link = "mailto:" + app.link;
+                 } else if (app.icon === "fa-whatsapp") {
+                      link = "https://wa.me/" + app.link.replace(/\D/g, "");
+                 } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
+                    link = "tel:" + app.link;
+                 } else {
+                      link = app.link;
+                 }
+            }
+
                 var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
-                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\"><i class='" + iconClass + " " + app.icon + "'></i><span>" + app.name + "</span></div>";
-            
+                var iconHTML = "";
+                if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
+                    var imgUrls = {
+                        "gmail": "https://www.google.com/favicon.ico",
+                        "yahoo": "https://www.yahoo.com/favicon.ico",
+                        "outlook": "https://outlook.live.com/favicon.ico",
+                        "icloud": "https://www.icloud.com/favicon.ico",
+                };
+                iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";     
+              } else {
+                  iconHTML = "<i class='" + iconClass + " " + app.icon + "'></i>";
+              }
+                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" + iconHTML + "<span>" + app.name + "</span></div>";
             }
             document.getElementById("modal-apps").innerHTML = appsHTML;
             document.getElementById("searchModal").style.display = "flex";
@@ -306,10 +329,33 @@ function  showDashboard(user, key) {
     var appsHTML ="";
     for (var i = 0; i < user.apps.length; i++) {
         var app = user.apps[i];
-        var link = app.link ? app.link : "#";
+        var link = "#";
+        if (app.link) {
+            if (app.icon === "fa-envelope") {
+                link = "mailto:" + app.link;
+            } else if (app.icon === "fa-whatsapp") {
+                link = "https://wa.me/" + app.link.replace(/\D/g,"");
+            } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
+                link = "tel:" +app.link;
+            } else {
+                link = app.link;
+            }
+        }
         var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
+        var iconHTML = "";
+        if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
+            var imgUrls = {
+                "gmail": "https://www.google.com/favicon.ico",
+                "yahoo": "https://www.yahoo.com/favicon.ico",
+                "outlook": "https://outlook.live.com/favicon.ico",
+                "icloud": "https://www.icloud.com/favicon.ico",
+            };
+            iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";     
+        } else {
+            iconHTML = "<i class='" + iconClass + " " + app.icon + "'></i>";
+        }
         appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
-           "<i class='" + iconClass + " " + app.icon + "'></i>" +
+           iconHTML +
            "<span>" + app.name + "</span>" +
 "</div>";
     }
