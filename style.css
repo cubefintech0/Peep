@@ -371,3 +371,35 @@ body {
     line-height: 1.6;
 }
 
+.category-section {
+    margin-bottom: 8px;
+    border-radius: 12px;
+    border: 1px solid #2e2e3e;
+    overflow: hidden;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #0a0a0f;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.category-header:hover {
+    background: #12121f;
+}
+
+.category-body {
+    padding: 12px;
+    background: #0a0a0f;
+}
+
+.category-arrow {
+    font-size: 12px;
+    color: #667eea;
+}

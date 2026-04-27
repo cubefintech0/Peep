@@ -43,7 +43,8 @@ function search() {
             for (var i = 0; i <user.apps.length; i++) {
                 var app = user.apps[i];
                 var link = app.link ? app.link : "#";
-                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\"><i class='fab " + app.icon + "'></i><span>" + app.name + "</span></div>";
+                var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
+                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\"><i class='" + iconClass + " " + app.icon + "'></i><span>" + app.name + "</span></div>";
             
             }
             document.getElementById("modal-apps").innerHTML = appsHTML;
@@ -77,17 +78,33 @@ function register() {
         return;
     }
 
-    var platformIcons = {
-        "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-        "facebook": {icon: "fa-facebook", color: "#1877f2"},
-        "tiktok": {icon: "fa-tiktok", color: "#111"},
-        "x": {icon: "fa-x-twitter", color: "#111"},
-        "youtube": {icon: "fa-youtube", color: "#ff0000"},
-        "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
-        "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
-        "amazon": {icon: "fa-amazon", color: "#ff9900"},
-        "snapchat": {icon: "fa-snapchat", color: "#fffc00"}
-    };
+  var platformIcons = {
+    "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+    "facebook": {icon: "fa-facebook", color: "#1877f2"},
+    "tiktok": {icon: "fa-tiktok", color: "#111"},
+    "x": {icon: "fa-x-twitter", color: "#111"},
+    "youtube": {icon: "fa-youtube", color: "#ff0000"},
+    "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
+    "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
+    "amazon": {icon: "fa-amazon", color: "#ff9900"},
+    "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
+    "pinterest": {icon: "fa-pinterest", color: "#e60023"},
+    "telegram": {icon: "fa-telegram", color: "#0088cc"},
+    "signal": {icon: "fa-comment", color: "#3a76f0"},
+    "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
+    "ebay": {icon: "fa-ebay", color: "#e53238"},
+    "etsy": {icon: "fa-etsy", color: "#f56400"},
+    "shopify": {icon: "fa-shopify", color: "#96bf48"},
+    "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
+    "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
+    "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+    "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
+    "business": {icon: "fa-phone", color: "#764ba2"},
+    "gmail": {icon: "fa-envelope", color: "#ea4335"},
+    "yahoo": {icon: "fa-envelope", color: "#6001d2"},
+    "outlook": {icon: "fa-envelope", color: "#0078d4"},
+    "icloud": {icon: "fa-envelope", color: "#3693f3"}
+};
 
     var list = platforms.split(",");
     var apps =[];
@@ -170,8 +187,9 @@ function updatePhone(user) {
     for (var i = 0; i < user.apps.length; i++) {
         var app = user.apps[i];
         var link =app.link ? app.link : "#";
+        var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
         appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
-            "<i class='fab " + app.icon + "'></i>" +
+            "<i class='" + iconClass + " " + app.icon + "'></i>" +
             "<span>" + app.name + "</span>" +
         "</div>";
     }
@@ -196,7 +214,19 @@ function togglePlatform(btn, platform) {
         selectedplatforms.push(platform);
         var linkDiv = document.createElement("div");
         linkDiv.style.marginBottom = "8px";
-        linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
+        var placeholders = {
+            "gmail": "Your Gmail address (example@gmail.com)",
+            "yahoo": "Your Yahoo email (example@yahoo.com)",
+            "outlook": "Your Outlook email (example@outlook.com)",
+            "icloud": "Your iCloud email (example@icloud.com)",
+            "mobile": "Your mobile number (+44 7700 900000)",
+            "business": "Your business number (+44 7700 900000)",
+            "whatsapp": "Your WhatsApp number(+44 7700 900000)",
+            "signal": "Your Signal number (+44 7700 900000)",
+            "telegram": "Your Telegram username or number"
+        };
+        var placeholder = placeholders[platform] ? placeholders[platform]: "Your " + platform + " link...";
+        linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
         document.getElementById("platformLinks").appendChild(linkDiv);
     }
 }
@@ -277,8 +307,9 @@ function  showDashboard(user, key) {
     for (var i = 0; i < user.apps.length; i++) {
         var app = user.apps[i];
         var link = app.link ? app.link : "#";
-       appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
-           "<i class='fab " + app.icon + "'></i>" +
+        var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
+        appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
+           "<i class='" + iconClass + " " + app.icon + "'></i>" +
            "<span>" + app.name + "</span>" +
 "</div>";
     }
@@ -390,9 +421,24 @@ function saveEdit() {
         "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
         "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
         "amazon": {icon: "fa-amazon", color: "#ff9900"},
-        "snapchat": {icon: "fa-snapchat", color: "#fffc00"}
-    };
-
+        "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
+        "pinterest": {icon: "fa-pinterest", color: "#e60023"},
+        "telegram": {icon: "fa-telegram", color: "#0088cc"},
+        "signal": {icon: "fa-comment", color: "#3a76f0"},
+        "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
+        "ebay": {icon: "fa-ebay", color: "#e53238"},
+        "etsy": {icon: "fa-etsy", color: "#f56400"},
+        "shopify": {icon: "fa-shopify", color: "#96bf48"},
+        "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
+        "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
+        "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
+        "business": {icon: "fa-phone", color: "#764ba2"},
+        "gmail": {icon: "fa-envelope", color: "#ea4335"},
+        "yahoo": {icon: "fa-envelope", color: "#6001d2"},
+        "outlook": {icon: "fa-envelope", color: "#0078d4"},
+        "icloud": {icon: "fa-envelope", color: "#3693f3"}
+};
 var apps = [];
     for (var i = 0; i < editPlatforms.length; i++) {
         var p = editPlatforms[i];
@@ -559,5 +605,15 @@ function uploadEditPhoto(input) {
     });
 }
 
-
+function toggleCategory(name) {
+    var body = document.getElementById("cat-" + name);
+    var arrow = body.previousElementSibling.querySelector(".category-arrow");
+    if (body.style.display === "none") {
+        body.style.display = "block";
+        arrow.innerHTML = "▲";
+    } else {
+        body.style.display = "none";
+        arrow.innerHTML = "▼";
+    }
+}
      
