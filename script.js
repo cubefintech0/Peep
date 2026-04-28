@@ -64,8 +64,9 @@ var catOrder = ["personal", "business", "messaging", "groups", "ecommerce", "pho
 for (var c = 0; c < catOrder.length; c++) {
     var cat = catOrder[c];
     if (!grouped[cat]) continue;
-    appsHTML += "<p style='color:#888; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:12px 0 6px;'>" + categoryLabels[cat] + "</p>";
-    appsHTML += "<div style='display:flex; flex-wrap:wrap; gap:6px; width:100%;'>";
+    appsHTML += "<div style='width:100%; margin-bottom:16px;'>";
+    appsHTML += "<p style='color:#888; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:0 0 8px;'>" + categoryLabels[cat] + "</p>";
+    appsHTML += "<div style='display:flex; flex-wrap:wrap; gap:8px;'>";
     for (var i = 0; i < grouped[cat].length; i++) {
         var app = grouped[cat][i];
         var link = "#";
@@ -91,12 +92,16 @@ for (var c = 0; c < catOrder.length; c++) {
             };
             iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";
         } else {
-            iconHTML = "<i class='" + iconClass + " " + app.icon + "'></i>";
+            iconHTML = "<i class='" + iconClass + " " + app.icon + "' style='font-size:22px; color:white;'></i>";
         }
-        appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" + iconHTML + "<span>" + app.name + "</span></div>";
+        appsHTML += "<div onclick=\"window.open('" + link + "', '_blank')\" style='background:" + app.color + "; width:60px; height:60px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; gap:4px;'>" +
+            iconHTML +
+            "<span style='font-size:8px; color:rgba(255,255,255,0.8); text-align:center;'>" + app.name + "</span>" +
+        "</div>";
     }
-    appsHTML += "</div>";
+    appsHTML += "</div></div>";
 }
+
 document.getElementById("modal-apps").innerHTML = appsHTML;
 
             document.getElementById("searchModal").style.display = "flex";
