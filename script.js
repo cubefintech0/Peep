@@ -39,38 +39,66 @@ function search() {
             document.getElementById("modal-handle").innerHTML = user.handle;
             document.getElementById("modal-location").innerHTML = user.location;
             document.getElementById("modal-verified").style.display = "inline-block";
-            var appsHTML ="";
-            for (var i = 0; i <user.apps.length; i++) {
-                var app = user.apps[i];
-                var link = "#";
-                if (app.link) {
-                    if (app.icon === "fa-envelope") {
-                       link = "mailto:" + app.link;
-                 } else if (app.icon === "fa-whatsapp") {
-                      link = "https://wa.me/" + app.link.replace(/\D/g, "");
-                 } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
-                    link = "tel:" + app.link;
-                 } else {
-                      link = app.link;
-                 }
-            }
 
-                var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
-                var iconHTML = "";
-                if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
-                    var imgUrls = {
-                        "gmail": "https://www.google.com/favicon.ico",
-                        "yahoo": "https://www.yahoo.com/favicon.ico",
-                        "outlook": "https://outlook.live.com/favicon.ico",
-                        "icloud": "https://www.icloud.com/favicon.ico",
-                };
-                iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";     
-              } else {
-                  iconHTML = "<i class='" + iconClass + " " + app.icon + "'></i>";
-              }
-                appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" + iconHTML + "<span>" + app.name + "</span></div>";
+var categoryLabels = {
+    "personal": "👤 Personal",
+    "business": "💼 Business",
+    "messaging": "💬 Messaging",
+    "groups": "👥 Groups & Channels",
+    "ecommerce": "🛒 E-Commerce",
+    "phone": "📞 Phone",
+    "email": "📧 Email",
+    "other": "🔗 Other"
+};
+
+var grouped ={};
+for(var i = 0; i < user.apps.length; i++) {
+    var app = user.apps[i];
+    var cat = getCategoryForApp(app.name);
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(app);
+}
+
+var appsHTML = "";
+var catOrder = ["personal", "business", "messaging", "groups", "ecommerce", "phone", "email", "other"];
+for (var c = 0; c < catOrder.length; c++) {
+    var cat = catOrder[c];
+    if (!grouped[cat]) continue;
+    appsHTML += "<p style='color:#888; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:12px 0 6px;'>" + categoryLabels[cat] + "</p>";
+    appsHTML += "<div style='display:flex; flex-wrap:wrap; gap:6px; width:100%;'>";
+    for (var i = 0; i < grouped[cat].length; i++) {
+        var app = grouped[cat][i];
+        var link = "#";
+        if (app.link) {
+            if (app.icon === "fa-envelope") {
+                link = "mailto:" + app.link;
+            } else if (app.icon === "fa-whatsapp") {
+                link = "https://wa.me/" + app.link.replace(/\D/g, "");
+            } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
+                link = "tel:" + app.link;
+            } else {
+                link = app.link;
             }
-            document.getElementById("modal-apps").innerHTML = appsHTML;
+        }
+        var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
+        var iconHTML = "";
+        if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
+            var imgUrls = {
+                "gmail": "https://www.google.com/favicon.ico",
+                "yahoo": "https://www.yahoo.com/favicon.ico",
+                "outlook": "https://outlook.live.com/favicon.ico",
+                "icloud": "https://www.icloud.com/favicon.ico"
+            };
+            iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";
+        } else {
+            iconHTML = "<i class='" + iconClass + " " + app.icon + "'></i>";
+        }
+        appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" + iconHTML + "<span>" + app.name + "</span></div>";
+    }
+    appsHTML += "</div>";
+}
+document.getElementById("modal-apps").innerHTML = appsHTML;
+
             document.getElementById("searchModal").style.display = "flex";
         } else {
             document.getElementById("modal-avatar").innerHTML = "?";
@@ -101,20 +129,30 @@ function register() {
         return;
     }
 
-  var platformIcons = {
+var platformIcons = {
     "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
     "facebook": {icon: "fa-facebook", color: "#1877f2"},
     "tiktok": {icon: "fa-tiktok", color: "#111"},
     "x": {icon: "fa-x-twitter", color: "#111"},
     "youtube": {icon: "fa-youtube", color: "#ff0000"},
-    "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
-    "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
-    "amazon": {icon: "fa-amazon", color: "#ff9900"},
     "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
     "pinterest": {icon: "fa-pinterest", color: "#e60023"},
+    "fbpage": {icon: "fa-facebook", color: "#1877f2"},
+    "instabusiness": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+    "tiktokbusiness": {icon: "fa-tiktok", color: "#ff0050"},
+    "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
+    "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
+    "whatsappbusiness": {icon: "fa-whatsapp", color: "#128c7e"},
     "telegram": {icon: "fa-telegram", color: "#0088cc"},
     "signal": {icon: "fa-comment", color: "#3a76f0"},
     "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
+    "whatsappgroup": {icon: "fa-whatsapp", color: "#25d366"},
+    "telegramgroup": {icon: "fa-telegram", color: "#0088cc"},
+    "telegramchannel": {icon: "fa-telegram", color: "#229ed9"},
+    "discord": {icon: "fa-discord", color: "#5865f2"},
+    "fbgroup": {icon: "fa-facebook", color: "#1877f2"},
+    "youtubechannel": {icon: "fa-youtube", color: "#ff0000"},
+    "amazon": {icon: "fa-amazon", color: "#ff9900"},
     "ebay": {icon: "fa-ebay", color: "#e53238"},
     "etsy": {icon: "fa-etsy", color: "#f56400"},
     "shopify": {icon: "fa-shopify", color: "#96bf48"},
@@ -122,7 +160,7 @@ function register() {
     "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
     "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
     "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
-    "business": {icon: "fa-phone", color: "#764ba2"},
+    "businessphone": {icon: "fa-phone", color: "#764ba2"},
     "gmail": {icon: "fa-envelope", color: "#ea4335"},
     "yahoo": {icon: "fa-envelope", color: "#6001d2"},
     "outlook": {icon: "fa-envelope", color: "#0078d4"},
@@ -243,10 +281,20 @@ function togglePlatform(btn, platform) {
             "outlook": "Your Outlook email (example@outlook.com)",
             "icloud": "Your iCloud email (example@icloud.com)",
             "mobile": "Your mobile number (+44 7700 900000)",
-            "business": "Your business number (+44 7700 900000)",
-            "whatsapp": "Your WhatsApp number(+44 7700 900000)",
-            "signal": "Your Signal number (+44 7700 900000)",
-            "telegram": "Your Telegram username or number"
+            "businessphone": "Your business number (+44 7700 900000)",
+            "whatsapp": "Your WhatsApp number (+44 7700 900000)",
+            "whatsappbusiness": "Your WhatsApp Business number (+44 7700 900000)",
+            "whatsappgroup": "Your WhatsApp Group invite link...",
+            "telegram": "Your Telegram username or link...",
+            "telegramgroup": "Your Telegram Group link...",
+            "telegramchannel": "Your Telegram Channel link...",
+            "discord": "Your Discord server invite link...",
+            "fbgroup": "Your Facebook Group link...",
+            "fbpage": "Your Facebook Page link...",
+            "instabusiness": "Your Instagram Business link...",
+            "tiktokbusiness": "Your TikTok Business link...",
+            "youtubechannel": "Your YouTube Channel link...",
+            "signal": "Your Signal number (+44 7700 900000)"
         };
         var placeholder = placeholders[platform] ? placeholders[platform]: "Your " + platform + " link...";
         linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
@@ -458,33 +506,44 @@ function saveEdit() {
         return;
     }
 
-    var platformIcons = {
-        "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-        "facebook": {icon: "fa-facebook", color: "#1877f2"},
-        "tiktok": {icon: "fa-tiktok", color: "#111"},
-        "x": {icon: "fa-x-twitter", color: "#111"},
-        "youtube": {icon: "fa-youtube", color: "#ff0000"},
-        "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
-        "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
-        "amazon": {icon: "fa-amazon", color: "#ff9900"},
-        "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
-        "pinterest": {icon: "fa-pinterest", color: "#e60023"},
-        "telegram": {icon: "fa-telegram", color: "#0088cc"},
-        "signal": {icon: "fa-comment", color: "#3a76f0"},
-        "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
-        "ebay": {icon: "fa-ebay", color: "#e53238"},
-        "etsy": {icon: "fa-etsy", color: "#f56400"},
-        "shopify": {icon: "fa-shopify", color: "#96bf48"},
-        "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
-        "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
-        "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-        "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
-        "business": {icon: "fa-phone", color: "#764ba2"},
-        "gmail": {icon: "fa-envelope", color: "#ea4335"},
-        "yahoo": {icon: "fa-envelope", color: "#6001d2"},
-        "outlook": {icon: "fa-envelope", color: "#0078d4"},
-        "icloud": {icon: "fa-envelope", color: "#3693f3"}
+   var platformIcons = {
+    "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+    "facebook": {icon: "fa-facebook", color: "#1877f2"},
+    "tiktok": {icon: "fa-tiktok", color: "#111"},
+    "x": {icon: "fa-x-twitter", color: "#111"},
+    "youtube": {icon: "fa-youtube", color: "#ff0000"},
+    "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
+    "pinterest": {icon: "fa-pinterest", color: "#e60023"},
+    "fbpage": {icon: "fa-facebook", color: "#1877f2"},
+    "instabusiness": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+    "tiktokbusiness": {icon: "fa-tiktok", color: "#ff0050"},
+    "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
+    "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
+    "whatsappbusiness": {icon: "fa-whatsapp", color: "#128c7e"},
+    "telegram": {icon: "fa-telegram", color: "#0088cc"},
+    "signal": {icon: "fa-comment", color: "#3a76f0"},
+    "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
+    "whatsappgroup": {icon: "fa-whatsapp", color: "#25d366"},
+    "telegramgroup": {icon: "fa-telegram", color: "#0088cc"},
+    "telegramchannel": {icon: "fa-telegram", color: "#229ed9"},
+    "discord": {icon: "fa-discord", color: "#5865f2"},
+    "fbgroup": {icon: "fa-facebook", color: "#1877f2"},
+    "youtubechannel": {icon: "fa-youtube", color: "#ff0000"},
+    "amazon": {icon: "fa-amazon", color: "#ff9900"},
+    "ebay": {icon: "fa-ebay", color: "#e53238"},
+    "etsy": {icon: "fa-etsy", color: "#f56400"},
+    "shopify": {icon: "fa-shopify", color: "#96bf48"},
+    "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
+    "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
+    "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+    "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
+    "businessphone": {icon: "fa-phone", color: "#764ba2"},
+    "gmail": {icon: "fa-envelope", color: "#ea4335"},
+    "yahoo": {icon: "fa-envelope", color: "#6001d2"},
+    "outlook": {icon: "fa-envelope", color: "#0078d4"},
+    "icloud": {icon: "fa-envelope", color: "#3693f3"}
 };
+
 var apps = [];
     for (var i = 0; i < editPlatforms.length; i++) {
         var p = editPlatforms[i];
@@ -662,4 +721,22 @@ function toggleCategory(name) {
         arrow.innerHTML = "▼";
     }
 }
-     
+
+
+function getCategoryForApp(appName) {
+    var categories = {
+        "personal": ["instagram", "facebook", "tiktok", "x", "youtube", "snapchat", "pinterest"],
+        "business": ["fbpage", "instabusiness", "tiktokbusiness", "linkedin"],
+        "messaging": ["whatsapp", "whatsappbusiness", "telegram", "signal", "messenger"],
+        "groups": ["whatsappgroup", "telegramgroup", "telegramchannel", "discord", "fbgroup", "youtubechannel"],
+        "ecommerce": ["amazon", "ebay", "etsy", "shopify", "tiktokshop", "fbmarketplace", "instashop"],
+        "phone": ["mobile", "businessphone"],
+        "email": ["gmail", "yahoo", "outlook", "icloud"]
+    };
+    for (var cat in categories) {
+        if (categories[cat].indexOf(appName.toLocaleLowerCase()) !== -1){
+            return cat;
+        }
+    }
+    return "other";
+}
