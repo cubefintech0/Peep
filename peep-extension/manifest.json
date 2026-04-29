@@ -1,5 +1,5 @@
 {
-    "mainfest_version": 3,
+    "manifest_version": 3,
     "name": "PeeP",
     "version": "1.0",
     "description": "Search any PeeP profile directly from your browser",
