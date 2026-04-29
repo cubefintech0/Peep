@@ -64,9 +64,9 @@ var catOrder = ["personal", "business", "messaging", "groups", "ecommerce", "pho
 for (var c = 0; c < catOrder.length; c++) {
     var cat = catOrder[c];
     if (!grouped[cat]) continue;
-    appsHTML += "<div style='width:100%; margin-bottom:16px;'>";
+    appsHTML += "<div style='width:100%; margin-bottom:16px; clear:both;'>";
     appsHTML += "<p style='color:#888; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:0 0 8px;'>" + categoryLabels[cat] + "</p>";
-    appsHTML += "<div style='display:flex; flex-wrap:wrap; gap:8px;'>";
+    appsHTML += "<div style='display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%;'>";
     for (var i = 0; i < grouped[cat].length; i++) {
         var app = grouped[cat][i];
         var link = "#";
@@ -102,7 +102,7 @@ for (var c = 0; c < catOrder.length; c++) {
     appsHTML += "</div></div>";
 }
 
-document.getElementById("modal-apps").innerHTML = appsHTML;
+document.getElementById("modal-apps").innerHTML = "<div style='display:flex; flex-direction:column; gap:4px;'>" + appsHTML + "</div>";
 
             document.getElementById("searchModal").style.display = "flex";
         } else {
@@ -745,3 +745,5 @@ function getCategoryForApp(appName) {
     }
     return "other";
 }
+
+

@@ -5,9 +5,9 @@
 }
 
 body {
-    background-color: #0a0a0f;
+    background-color: #0d0d1a;
     color: white;
-    font-family: 'Inter' , Arial, sans-serif;
+    font-family: 'DM Sans' , Arial, sans-serif;
     min-height: 100vh;
 }
 
@@ -16,12 +16,13 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 20px 40px;
-    border-bottom: 1px solid #1e1e2e;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .logo {
+    font-family: 'Syne', sans-serif;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 800;
     background: linear-gradient(135deg, #667eea, #764ba2);
      -webkit-background-clip: text;
      -webkit-text-fill-color: transparent;
@@ -33,9 +34,17 @@ body {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     border: none;
-    padding: 10px 24px;
-    border-radius: 20px;
+    padding: 10px 22px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.nav-btn.hover {
+    opacity: 0.85;
 }
 
 .hero {
@@ -44,13 +53,12 @@ body {
 }
 
 .hero h1 {
-    font-size: 50px;
-    font-weight: 700;
+    font-family: 'Syne' , sans-serif;
+    font-size: 52px;
+    font-weight: 800;
     line-height: 1.1;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, #ffffff, #888);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: white;
 }
 
 .hero p {
@@ -72,14 +80,16 @@ body {
 
 .search-container input {
     width: 400px;
-    padding: 16px 24px;
-    border-radius: 30px;
-    border: 1px solid #2e2e3e;
+    padding: 14px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: #12121f;
     color: white;
     font-size: 15px;
     outline: none;
     caret-color: #667eea;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2;
 }
 
 .search-container input:focus {
@@ -92,14 +102,20 @@ body {
 }
 
 .search-container button {
-    padding: 16px 32px;
-    border-radius: 30px;
+    padding: 14px 28px;
+    border-radius: 10px;
     border: none;
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     font-size: 15px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
+    font-family: 'DM Sans' , sans-serif;
+    transition: opacity 0.2s;
+}
+
+.search-container button:hover {
+    opacity: 0.85;
 }
 
 .main-content {
@@ -128,16 +144,22 @@ body {
 
 .register-box input {
     width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #2e2e3e;
-    background-color: #0a0a0f;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.8);
+    background-color: #0a0a14;
     color: white;
     font-size: 14px;
     margin-bottom: 12px;
     display: block;
     outline: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
 
+}
+
+.register-box input:focus {
+    border-color: 667eea;
 }
 
 .register-box button {
@@ -162,17 +184,23 @@ body {
 }
 
 .platform-btn {
-    background-color: #0a0a0f;
+    background: #12121f;
     color: #888;
-    border: 1px solid #2e2e3e;
-    border-radius: 20px;
-    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 7px 12px;
     font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
     transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.platform-btn:hover {
+    border-color: rgba(102,126,234,0.4);
+    color: white;
 }
 
 .platform-btn.selected {
@@ -222,12 +250,13 @@ body {
 }
 
 .phone-verified {
-    background: #1a3a1a;
-    color: #4caf50;
-    font-size: 9px;
-    padding: 2px 8px;
-    border-radius: 10px;
+    background: rgba(74,222,128,0.12);
+    color: #4ade80;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
     display: inline-block;
+    border: 1px solid rgba(74,222,128,0.12);
 }
 
 .apps-grid {
@@ -308,15 +337,21 @@ body {
 
 .login-box input {
     width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #2e2e3e;
-    background-color: #0a0a0f;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background-color: #0a0a14;
     color: white;
     font-size: 14px;
     margin-bottom: 12px;
     display: block;
     outline: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.login-box input:focus {
+    border-color: #667eea;
 }
 
 .login-box button {
@@ -349,17 +384,30 @@ body {
     gap: 24px;
     padding: 60px 40px;
     flex-wrap: wrap;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .feature-card {
     background: #12121f;
-    border:1px solid #1e1e2e;
-    border-radius: 20px;
-    padding: 32px 24px;
-    width: 240px;
+    border:1px solid rgb(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 28px 24px;
+    width: 260px;
     text-align: center;
+    transition: border-color 0.2s;
+}
+
+.feature-card:hover {
+    border-color: rgba(102, 126, 234, 0.4);
+}
+
+.feature-card h3 {
+    font-family:'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
 }
 
 .feature-icon {
@@ -382,8 +430,8 @@ body {
 
 .category-section {
     margin-bottom: 8px;
-    border-radius: 12px;
-    border: 1px solid #2e2e3e;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.07);
     overflow: hidden;
 }
 
@@ -391,12 +439,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    background: #0a0a0f;
+    padding: 12px 14px;
+    background: #0a0a14;
     color: white;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
 }
 
 .category-header:hover {
@@ -405,10 +454,16 @@ body {
 
 .category-body {
     padding: 12px;
-    background: #0a0a0f;
+    background: #0a0a14;
 }
 
 .category-arrow {
-    font-size: 12px;
-    color: #667eea;
+    font-size: 11px;
+    color: #a78bfa;
 }
+
+
+
+
+
+
