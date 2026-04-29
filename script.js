@@ -747,3 +747,14 @@ function getCategoryForApp(appName) {
 }
 
 
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+        .then(function(registeration) {
+            console.log('PeeP PWA Ready!');
+        })
+        .catch(function(error) {
+            console.log('SW Error: ', error);
+        });
+    });
+}

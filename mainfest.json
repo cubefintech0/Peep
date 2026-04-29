@@ -1,0 +1,23 @@
+{
+    "name": "PeeP",
+    "short_name": "PeeP",
+    "description": "One identity. Every Platform. Yours forever.",
+    "start_url":"/",
+    "display": "standalone",
+    "background_color": "#0d0d1a",
+    "theme_color": "#667eea",
+    "oreintation": "portrait",
+    "icons": [
+        {
+                "src": "icon-192.png",
+                "size": "192x192",
+                "type": "image/png",
+        },
+        {
+                "src": "icon-512.png",
+                "size": "512x512",
+                "type": "image/png"
+
+        }
+    ]
+}
