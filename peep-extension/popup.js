@@ -120,3 +120,4 @@ function getCategoryForApp(appName) {
 document.getElementById("searchInput").addEventListener("keypress", function(e) {
     if (e.key === "Enter") search();
 });
+document.getElementById("searchBtn").addEventListener("click", search);
