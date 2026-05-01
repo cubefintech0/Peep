@@ -178,7 +178,11 @@ var platformIcons = {
         var p = list[i].trim().toLocaleLowerCase();
         if (platformIcons[p]) {
             var linkInput = document.getElementById("link-" + p);
+            var codeInput = document.getElementById("code-" + p);
             var link = linkInput ? linkInput.value :"";
+            if (codeInput && codeInput.value && link) {
+                link = codeInput.value + link;
+            }
             apps.push({
                 icon:platformIcons[p].icon,
                 name: list[i].trim(),
@@ -302,8 +306,20 @@ function togglePlatform(btn, platform) {
             "signal": "Your Signal number (+44 7700 900000)"
         };
         var placeholder = placeholders[platform] ? placeholders[platform]: "Your " + platform + " link...";
+            if (platform === "mobile" || platform === "businessphone") {
+                linkDiv.innerHTML ="<div style='display:flex; gap:8px;'>"+
+                "<select id='code-" + platform + "' style='padding:10px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none; width:130px;'>"+
+                "</select>" +
+                "<input type='text' id='link-" + platform + "' placeholder='7700 900000' style='flex:1; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>" +
+                "</div>";
+
+            } else {
         linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
+            }
         document.getElementById("platformLinks").appendChild(linkDiv);
+        if (platform === "mobile" || platform === "businessphone") {
+            setTimeout(function() { loadCountryCodes("code-" + platform); }, 100);
+        }
     }
 }
 
@@ -755,6 +771,30 @@ if ('serviceWorker' in navigator) {
         })
         .catch(function(error) {
             console.log('SW Error: ', error);
+        });
+    });
+}
+
+
+function loadCountryCodes(selectID) {
+    fetch("https://restcountries.com/v3.1/all?fields=name,idd,flag")
+    .then(function(response) { return response.json(); })
+    .then(function(countries) {
+        countries.sort(function(a, b) {
+            return a.name.common.localeCompare(b.name.common);
+        });
+        var select = document.getElementById(selectID);
+        if (!select) return;
+        select.innerHTML ="";
+        countries.forEach(function(country) {
+            if(country.idd && country.idd.root) {
+                var code = country.idd.root + (country.idd.suffixes && country.idd.suffixes.length === 1 ? country.idd.suffixes[0] : "");
+                var option = document.createElement("option");
+                option.value = code;
+                option.text = country.flag + "" + country.name.common + " " + code;
+                if (code === "+93") option.selected = true;
+                select.appendChild(option);
+            }
         });
     });
 }
