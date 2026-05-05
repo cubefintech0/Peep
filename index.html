@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="mainfest" href="mainfest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
 </head>
 <body>
@@ -47,7 +47,7 @@
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
                 <h3>You own your data</h3>
-                <p>Decenteralized and secure. No company controls your identity - only you do.</p>
+                <p>Decentralized and secure. No company controls your identity - only you do.</p>
             </div>
         </div>
 
@@ -83,7 +83,13 @@
             <h2 style="font-size:28px; font-weight:700; margin-bottom:8px; font-family:'Syne', sans-serif; color:#667eea; text-align:center;">Welcome Back</h2>
             <p style="color:#888888; margin-bottom:32px; text-align: center;"><strong> Sign in to your Peep account</strong></p>
             <input type="email" id="loginEmail" placeholder="Your email" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
-            <input type="password" id="loginPassword" placeholder="Your password" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:20px; display:block; outline:none;">
+            <input type="password" id="loginPassword" placeholder="Your password" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:8px; display:block; outline:none;">
+            <p style="text-align: right; margin-bottom: 16px;">
+                <span onclick="forgotPassword()"
+                style="color:#667eea; font-size: 13px; cursor:pointer;">
+                Forgot Password?
+                </span>
+            </p>
             <button onclick="loginWithGoogle()" style="width:100%; padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:10px;">
                  <img src="https://www.google.com/favicon.ico" style="width:18px; height:18px;"> Continue with Google
             </button>
@@ -279,17 +285,118 @@
             <input type="text" id="editHandle" placeholder="@yourhandle" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <input type="text" id="editLocation" placeholder="Your city" style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <p style="color:#888; font-size:13px; margin-bottom:8px;">Select your platforms:</p>
-            <div class="platform-selector" id="editPlatformSelector">
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'instagram')"><i class="fab fa-instagram"></i> Instagram</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'facebook')"><i class="fab fa-facebook"></i> Facebook</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'tiktok')"><i class="fab fa-tiktok"></i> TikTok</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'x')"><i class="fab fa-x-twitter"></i> X</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'youtube')"><i class="fab fa-youtube"></i> YouTube</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'linkedin')"><i class="fab fa-linkedin"></i> LinkedIn</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'amazon')"><i class="fab fa-amazon"></i> Amazon</div>
-                <div class="platform-btn" onclick="toggleEditPlatform(this, 'snapchat')"><i class="fab fa-snapchat"></i> Snapchat</div>
-            </div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('personal')">
+        <span>👤 Personal Social Media</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-personal" style="display:none;">
+        <div class="platform-selector" id="editPlatformSelector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'instagram')"><i class="fab fa-instagram"></i> Instagram</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'facebook')"><i class="fab fa-facebook"></i> Facebook</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'tiktok')"><i class="fab fa-tiktok"></i> TikTok</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'x')"><i class="fab fa-x-twitter"></i> X</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'youtube')"><i class="fab fa-youtube"></i> YouTube</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'snapchat')"><i class="fab fa-snapchat"></i> Snapchat</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'pinterest')"><i class="fab fa-pinterest"></i> Pinterest</div>
+        </div>
+    </div>
+</div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('business')">
+        <span>💼 Business</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-business" style="display:none;">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'fbpage')"><i class="fab fa-facebook"></i> Facebook Page</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'instabusiness')"><i class="fab fa-instagram"></i> Instagram Business</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'tiktokbusiness')"><i class="fab fa-tiktok"></i> TikTok Business</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'linkedin')"><i class="fab fa-linkedin"></i> LinkedIn</div>
+        </div>
+    </div>
+</div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('messaging')">
+        <span>💬 Messaging</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-messaging" style="display:none;">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'whatsappbusiness')"><i class="fab fa-whatsapp"></i> WhatsApp Business</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'telegram')"><i class="fab fa-telegram"></i> Telegram</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'signal')"><i class="fas fa-comment"></i> Signal</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'messenger')"><i class="fab fa-facebook-messenger"></i> Messenger</div>
+        </div>
+    </div>
+</div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('groups')">
+        <span>👥 Groups & Channels</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-groups" style="display:none;">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'whatsappgroup')"><i class="fab fa-whatsapp"></i> WhatsApp Group</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'telegramgroup')"><i class="fab fa-telegram"></i> Telegram Group</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'telegramchannel')"><i class="fab fa-telegram"></i> Telegram Channel</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'discord')"><i class="fab fa-discord"></i> Discord</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'fbgroup')"><i class="fab fa-facebook"></i> Facebook Group</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'youtubechannel')"><i class="fab fa-youtube"></i> YouTube Channel</div>
+        </div>
+    </div>
+</div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('ecommerce')">
+        <span>🛒 E-Commerce</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-ecommerce" style="display:none;">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'amazon')"><i class="fab fa-amazon"></i> Amazon</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'ebay')"><i class="fab fa-ebay"></i> eBay</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'etsy')"><i class="fab fa-etsy"></i> Etsy</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'shopify')"><i class="fab fa-shopify"></i> Shopify</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'tiktokshop')"><i class="fab fa-tiktok"></i> TikTok Shop</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'fbmarketplace')"><i class="fab fa-facebook"></i> FB Marketplace</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'instashop')"><i class="fab fa-instagram"></i> Insta Shop</div>
+        </div>
+    </div>
+</div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('phone')">
+        <span>📞 Phone</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-phone" style="display:none;">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'mobile')"><i class="fas fa-mobile-alt"></i> Mobile</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'businessphone')"><i class="fas fa-phone"></i> Business Phone</div>
+        </div>
+    </div>
+</div>
+
+    <div class="category-section">
+    <div class="category-header" onclick="toggleEditCategory('email')">
+        <span>📧 Email</span>
+        <span class="category-arrow">▼</span>
+    </div>
+    <div class="category-body" id="edit-cat-email" style="display:none;">
+        <div class="platform-selector">
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'gmail')"><i class="fas fa-envelope"></i> Gmail</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'yahoo')"><i class="fas fa-envelope"></i> Yahoo</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'outlook')"><i class="fas fa-envelope"></i> Outlook</div>
+            <div class="platform-btn" onclick="toggleEditPlatform(this, 'icloud')"><i class="fas fa-envelope"></i> iCloud</div>
+        </div>
+    </div>
+</div>
             <div id="editPlatformLinks" style="margin-bottom:12px;"></div>
             <button onclick="saveEdit()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500; margin-top:8px;">Save Changes</button>
             <button onclick="hideEdit()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:transparent; color:#888; font-size:15px; cursor:pointer; margin-top:8px;">Cancel</button>

@@ -468,7 +468,7 @@ function showEdit() {
             document.getElementById("editHandle").value = user.handle;
             document.getElementById("editLocation").value = user.location;
 
-            var buttons = document.querySelectorAll("#editPlatformSelector .platform-btn");
+            var buttons = document.querySelectorAll("#editform .platform-btn");
             buttons.forEach(function(btn) {
                 btn.classList.remove("selected");
             });
@@ -796,5 +796,33 @@ function loadCountryCodes(selectID) {
                 select.appendChild(option);
             }
         });
+    });
+}
+
+function toggleEditCategory(name) {
+    var body = document.getElementById("edit-cat-" + name);
+    var arrow = body.previousElementSibling.querySelector(".category-arrow");
+    if (body.style.display === "none") {
+        body.style.display = "block";
+        arrow.innerHTML = "▲";
+    } else {
+        body.style.display = "none";
+        arrow.innerHTML = "▼";
+    }
+}
+
+
+function forgotPassword() {
+    var email = document.getElementById("loginEmail").value;
+    if (email === "") {
+        showToast("Please enter your email first!");
+        return;
+    }
+    firebase.auth().sendPasswordResetEmail(email)
+    .then(function() {
+        showToast("✓ Password reset email sent! Check your inbox!");
+    })
+    .catch(function(error) {
+        showToast("Error: " + error.message);
     });
 }
