@@ -467,3 +467,154 @@ body {
 
 
 
+/* =============================
+   MOBILE RESPONSIVE
+   ============================= */
+
+@media (max-width: 768px) {
+
+    /* Navbar */
+    .navbar {
+        padding: 16px 20px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 40px 16px 20px;
+    }
+
+    .hero h1 {
+        font-size: 28px !important;
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: 15px !important;
+    }
+
+    /* Search Bar */
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 16px;
+        gap: 8px;
+    }
+
+    .search-container input {
+        width: 100% !important;
+    }
+
+    .search-container button {
+        width: 100%;
+    }
+
+    /* Feature Cards */
+    .features {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 20px;
+        gap: 16px;
+    }
+
+    .feature-card {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    /* Auth Page */
+    #auth-page > div {
+        margin: 30px auto !important;
+        padding: 0 16px !important;
+    }
+
+    /* Dashboard Page */
+    #dashboard-page > div {
+        padding: 0 16px !important;
+        margin: 20px auto !important;
+    }
+
+    /* Apps Grid */
+    .apps-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .app-icon {
+        height: 54px !important;
+    }
+
+    .app-icon i {
+        font-size: 18px !important;
+    }
+
+    /* Search Modal */
+    #searchModal > div {
+        width: 95% !important;
+        padding: 16px !important;
+        margin: 10px auto !important;
+    }
+
+    /* Footer */
+    footer {
+        padding: 30px 20px !important;
+    }
+
+    /* Toast */
+    #toast {
+        bottom: 16px !important;
+        right: 16px !important;
+        left: 16px !important;
+        text-align: center;
+    }
+
+    /* Edit Form */
+    #editForm {
+        padding: 16px !important;
+    }
+
+    /* Platform Buttons */
+    .platform-btn {
+        font-size: 11px !important;
+        padding: 6px 10px !important;
+    }
+
+    /* Category Headers */
+    .category-header {
+        font-size: 12px !important;
+        padding: 10px 12px !important;
+    }
+
+}
+
+/* Extra small phones */
+@media (max-width: 400px) {
+
+    .hero h1 {
+        font-size: 22px !important;
+    }
+
+    .apps-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .hero-badge {
+        font-size: 11px !important;
+        padding: 5px 12px !important;
+    }
+
+    .phone-avatar {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 16px !important;
+    }
+
+}
