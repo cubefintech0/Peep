@@ -82,7 +82,7 @@
         <div style="max-width: 400px; margin: 60px auto; padding:0 20px;">
             <div id="login-form">
             <h2 style="font-size:28px; font-weight:700; margin-bottom:8px; font-family:'Syne', sans-serif; color:#667eea; text-align:center;">Welcome Back</h2>
-            <p style="color:#888888; margin-bottom:32px; text-align: center;"><strong> Sign in to your Peep account</strong></p>
+            <p style="color:#888888; margin-bottom:32px; text-align: center;"><strong> Sign in to your PeeP account</strong></p>
             <input type="email" id="loginEmail" placeholder="Your email" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <input type="password" id="loginPassword" placeholder="Your password" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:8px; display:block; outline:none;">
             <p style="text-align: right; margin-bottom: 16px;">
@@ -96,12 +96,12 @@
             </button>
             <div style="text-align: center; color:#555; font-size:13px; margin-bottom:12px;">or</div>
             <button onclick="login()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500;">Sign In</button>
-            <p style="text-align:center; color:#888; margin-top:20px; font-size:14px;">Don't have an account? <span onclick="showAuth('register')" style="color:#667eea; cursor:pointer;">Join Peep</span></p>
+            <p style="text-align:center; color:#888; margin-top:20px; font-size:14px;">Don't have an account? <span onclick="showAuth('register')" style="color:#667eea; cursor:pointer;">Join PeeP</span></p>
             </div>
 
         <div id="register-form" style="display:none;">
-            <h2 style="font-size:28px; font-weight:800; margin-bottom:8px; font-family: 'Syne', sans-serif;">Join Peep</h2>
-            <p style="color:#888; margin-bottom:32px;">Create your digital identity</p>
+            <h2 style="font-size:28px; font-weight:700; margin-bottom:8px; font-family:'Syne', sans-serif; color:#667eea; text-align:center;">Join PeeP</h2>
+            <p style="color:#888888; margin-bottom:32px; text-align: center;"><strong> Create Your Digital Identity</strong> </p>
             <input type="email" id="regEmail" placeholder="Your email" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <input type="password" id="regPassword" placeholder="Create password" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
             <input type="text" id="regName" placeholder="Your full name" style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#0a0a14; color:white; font-size:14px; margin-bottom:12px; display:block; outline:none;">
@@ -224,7 +224,7 @@
                 <img src="https://www.google.com/favicon.ico" style="width:18px; height:18px;"> Continue with Google
             </button>
             <div style="text-align:center; color:#555; font-size:13px; margin-bottom:12px;">or</div>
-            <button onclick="register()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500; margin-top:8px;">Join Peep</button>
+            <button onclick="register()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; font-size:15px; cursor:pointer; font-weight:500; margin-top:8px;">Join PeeP</button>
             <p style="text-align:center; color:#888; margin-top:20px; font-size:14px;">Already have an account? <span onclick="showAuth('login')" style="color:#667eea; cursor:pointer;">Sign In</span></p>
         </div>
  </div>
@@ -232,7 +232,7 @@
 
 <div id="dashboard-page" style="display:none;">
     <nav class="navbar">
-        <div class="logo">Peep</div>
+        <div class="logo">PeeP</div>
         <button class="nav-btn" onclick="logout()" style="background:transparent; border:1px solid #667eea; color:#667eea;">Sign Out</button>
     </nav>
 
@@ -257,7 +257,7 @@
         </div>
 
         <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px;">
-            <p style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Your Peep Link</p>
+            <p style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Your PeeP Link</p>
             <div style="display:flex; gap:8px;">
                 <input type="text" id="linkInput" readonly style="flex:1; padding:10px 16px; border-radius:12px; border:1px solid #2e2e3e; background:#0a0a0f; color:#667eea; font-size:13px; outline:none;">
                 <button onclick="copyLink()" style="padding:10px 20px; border-radius:12px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:white; cursor:pointer; font-size:13px;">Copy</button>
@@ -267,7 +267,7 @@
         <div style="background:#12121f; border-radius:24px; border:1px solid #1e1e2e; padding:24px; margin-bottom:20px; text-align:center;">
             <p style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Your QR Code</p>
             <div id="qrcode-img" style="display:inline-block; padding:12px; background:white; border-radius:12px;"></div>
-            <p style="color:#555; font-size:11px; margin-top:12px;">Scan to open your Peep profile</p>
+            <p style="color:#555; font-size:11px; margin-top:12px;">Scan to open your PeeP profile</p>
         </div>
 
         <button onclick="showEdit()" style="width:100%; padding:14px; border-radius:12px; border:1px solid #2e2e3e; background:transparent; color:#667eea; font-size:15px; cursor:pointer; font-weight:500; margin-bottom:12px;">✏️ Edit Profile</button>
@@ -426,9 +426,9 @@
 <script src="script.js"></script>
 
 <footer style="text-align:center; padding:40px 20px; border-top:1px solid #1e1e2e; margin-top:40px;">
-    <div style="font-size:20px; font-weight:700; background:linear-gradient(135deg,#667eea,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px;">Peep</div>
+    <div style="font-size:20px; font-weight:700; background:linear-gradient(135deg,#667eea,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px;">PeeP</div>
     <p style="color:#555; font-size:13px; margin-bottom:8px;">One identity. Every platform. Yours forever.</p>
-    <p style="color:#333; font-size:12px;">© 2026 Peep. All rights reserved.</p>
+    <p style="color:#333; font-size:12px;">© 2026 PeeP. All rights reserved.</p>
 </footer>
 
 
