@@ -830,20 +830,18 @@ function forgotPassword() {
 
 
 function connectFacebook() {
-    var provider = new firebase.auth.FacebookAuthProvider();
-    provider.addScope('public_profile');
-    firebase.auth().signInWithPopup(provider)
-    .then(function(result) {
-        var fbName = result.user.displayName;
-        var fbId = result.additionalUserInfo.profile.id;
-        var fbLink = "https://www.facebook.com/" + fbId;
-        var linkInput = document.getElementById("link-facebook");
-        if (linkInput) {
-            linkInput.value = fbLink;
-            linkInput.style.borderColor = "#1877f2";
-        }
-        showToast("✓ Facebook connected: " + fbName + "!");
-    }).catch(function(error) {
-        showToast("Error: " + error.message);
-    });
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        window.location.href = "fb://";
+        setTimeout(function() {
+            window.open("https://www.facebook.com", "_blank");
+        }, 2000);
+    } else {
+        window.open("https://www.facebook.com", "_blank");
+    }
+    var linkInput = document.getElementById("link-facebook");
+    linkInput.removeAttribute("readonly");
+    linkInput.placeholder =" Paste your Facebook profile link here...";
+    linkInput.focus();
+    showToast("Copy your Facebook profile link and paste it here! 👆");
 }
