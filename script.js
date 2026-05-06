@@ -17,7 +17,6 @@ function search() {
     db.collection("users").doc(name).get().then(function(doc) {
         if (doc.exists) {
             var user = doc.data();
-            var user = doc.data();
             var modalAvatar = document.getElementById("modal-avatar");
             modalAvatar.style.backgroundImage = "";
             modalAvatar.style.backgroundSize = "";
@@ -25,14 +24,14 @@ function search() {
             document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
             if (user.photo) {
                 var modalAvatar = document.getElementById("modal-avatar");
-                modalAvatar.innerHTML ="";
-                modalAvatar.style.backgroundImage = "url("+ user.photo + ")";
+                modalAvatar.innerHTML = "";
+                modalAvatar.style.backgroundImage = "url(" + user.photo + ")";
                 modalAvatar.style.backgroundSize = "cover";
                 modalAvatar.style.backgroundPosition = "center";
             } else {
                 var modalAvatar = document.getElementById("modal-avatar");
                 modalAvatar.innerHTML = user.name.charAt(0);
-                modalAvatar.style.backgroundImage ="";
+                modalAvatar.style.backgroundImage = "";
             }
             currentModalKey = name;
             document.getElementById("modal-share-btn").style.display = "block";
@@ -40,85 +39,90 @@ function search() {
             document.getElementById("modal-location").innerHTML = user.location;
             document.getElementById("modal-verified").style.display = "inline-block";
 
-var categoryLabels = {
-    "personal": "👤 Personal",
-    "business": "💼 Business",
-    "messaging": "💬 Messaging",
-    "groups": "👥 Groups & Channels",
-    "ecommerce": "🛒 E-Commerce",
-    "phone": "📞 Phone",
-    "email": "📧 Email",
-    "other": "🔗 Other"
-};
-
-var grouped ={};
-for(var i = 0; i < user.apps.length; i++) {
-    var app = user.apps[i];
-    var cat = getCategoryForApp(app.name);
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(app);
-}
-
-var appsHTML = "";
-var catOrder = ["personal", "business", "messaging", "groups", "ecommerce", "phone", "email", "other"];
-for (var c = 0; c < catOrder.length; c++) {
-    var cat = catOrder[c];
-    if (!grouped[cat]) continue;
-    appsHTML += "<div style='width:100%; margin-bottom:16px; clear:both;'>";
-    appsHTML += "<p style='color:#888; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:0 0 8px;'>" + categoryLabels[cat] + "</p>";
-    appsHTML += "<div style='display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%;'>";
-    for (var i = 0; i < grouped[cat].length; i++) {
-        var app = grouped[cat][i];
-        var link = "#";
-        if (app.link) {
-            if (app.icon === "fa-envelope") {
-                link = "mailto:" + app.link;
-            } else if (app.icon === "fa-whatsapp") {
-                link = "https://wa.me/" + app.link.replace(/\D/g, "");
-            } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
-                link = "tel:" + app.link;
-            } else {
-                link = app.link;
-            }
-        }
-        var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
-        var iconHTML = "";
-        if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
-            var imgUrls = {
-                "gmail": "https://www.google.com/favicon.ico",
-                "yahoo": "https://www.yahoo.com/favicon.ico",
-                "outlook": "https://outlook.live.com/favicon.ico",
-                "icloud": "https://www.icloud.com/favicon.ico"
+            var categoryLabels = {
+                "personal": "👤 Personal",
+                "business": "💼 Business",
+                "messaging": "💬 Messaging",
+                "groups": "👥 Groups & Channels",
+                "ecommerce": "🛒 E-Commerce",
+                "phone": "📞 Phone",
+                "email": "📧 Email",
+                "other": "🔗 Other"
             };
-            iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";
-        } else {
-            iconHTML = "<i class='" + iconClass + " " + app.icon + "' style='font-size:22px; color:white;'></i>";
-        }
-        appsHTML += "<div onclick=\"window.open('" + link + "', '_blank')\" style='background:" + app.color + "; width:60px; height:60px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; gap:4px;'>" +
-            iconHTML +
-            "<span style='font-size:8px; color:rgba(255,255,255,0.8); text-align:center;'>" + app.name + "</span>" +
-        "</div>";
-    }
-    appsHTML += "</div></div>";
-}
 
-document.getElementById("modal-apps").innerHTML = "<div style='display:flex; flex-direction:column; gap:4px;'>" + appsHTML + "</div>";
+            var grouped = {};
+            for (var i = 0; i < user.apps.length; i++) {
+                var app = user.apps[i];
+                var cat = getCategoryForApp(app.name);
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(app);
+            }
 
+            var appsHTML = "";
+            var catOrder = ["personal", "business", "messaging", "groups", "ecommerce", "phone", "email", "other"];
+            for (var c = 0; c < catOrder.length; c++) {
+                var cat = catOrder[c];
+                if (!grouped[cat]) continue;
+                appsHTML += "<div style='width:100%; margin-bottom:16px; clear:both;'>";
+                appsHTML += "<p style='color:#57606a; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:0 0 8px; font-weight:600;'>" + categoryLabels[cat] + "</p>";
+                appsHTML += "<div style='display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%;'>";
+                for (var i = 0; i < grouped[cat].length; i++) {
+                    var app = grouped[cat][i];
+                    var link = "#";
+                    if (app.link) {
+                        if (app.icon === "fa-envelope") {
+                            link = "mailto:" + app.link;
+                        } else if (app.icon === "fa-whatsapp") {
+                            link = "https://wa.me/" + app.link.replace(/\D/g, "");
+                        } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
+                            link = "tel:" + app.link;
+                        } else {
+                            link = app.link;
+                        }
+                    }
+                    var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
+                    var iconHTML = "";
+                    if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
+                        var imgUrls = {
+                            "gmail": "https://www.google.com/favicon.ico",
+                            "yahoo": "https://www.yahoo.com/favicon.ico",
+                            "outlook": "https://outlook.live.com/favicon.ico",
+                            "icloud": "https://www.icloud.com/favicon.ico"
+                        };
+                        iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";
+                    } else {
+                        iconHTML = "<i class='" + iconClass + " " + app.icon + "' style='font-size:22px; color:white;'></i>";
+                    }
+                    appsHTML += "<div onclick=\"window.open('" + link + "', '_blank')\" style='background:" + app.color + "; width:60px; height:60px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; gap:4px;'>" +
+                        iconHTML +
+                        "<span style='font-size:8px; color:rgba(255,255,255,0.9); text-align:center;'>" + app.name + "</span>" +
+                    "</div>";
+                }
+                appsHTML += "</div></div>";
+            }
+
+            document.getElementById("modal-apps").innerHTML = "<div style='display:flex; flex-direction:column; gap:4px;'>" + appsHTML + "</div>";
             document.getElementById("searchModal").style.display = "flex";
+
         } else {
+            // ── NOT FOUND ── (FIXED: was broken syntax + wrong colors)
             document.getElementById("modal-avatar").innerHTML = "?";
             document.getElementById("modal-handle").innerHTML = "";
             document.getElementById("modal-location").innerHTML = "";
             document.getElementById("modal-verified").style.display = "none";
-            document.getElementById("result").innerHTML = "<div style='text-align:center; padding:20px 0;'><div style='font-size:40px; margin-bottom:12px;'>🔍</div><p style='color:white; font-size:16px; font-weight:600; margin-bottom:8px;'>No profile found</p><p style='color:#888; font-size:13px;'>\"" + name + "\" is not on Peep yet</p></div>";
+            document.getElementById("result").innerHTML =
+                "<div style='text-align:center; padding:20px 0;'>" +
+                "<div style='font-size:40px; margin-bottom:12px;'>🔍</div>" +
+                "<p style='color:#24292f; font-size:16px; font-weight:600; margin-bottom:8px;'>No profile found</p>" +
+                "<p style='color:#57606a; font-size:13px;'>\"" + name + "\" is not on PeeP yet</p>" +
+                "</div>";
             document.getElementById("modal-apps").innerHTML = "";
-            document.getElementById("modal-share-btn").style.display ="none";
+            document.getElementById("modal-share-btn").style.display = "none";
             document.getElementById("searchModal").style.display = "flex";
         }
     }).catch(function(error) {
-        showToast("Error:" + error);
+        showToast("Error: " + error);
     });
-
 }
 
 function register() {
@@ -134,65 +138,63 @@ function register() {
         return;
     }
 
-var platformIcons = {
-    "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-    "facebook": {icon: "fa-facebook", color: "#1877f2"},
-    "tiktok": {icon: "fa-tiktok", color: "#111"},
-    "x": {icon: "fa-x-twitter", color: "#111"},
-    "youtube": {icon: "fa-youtube", color: "#ff0000"},
-    "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
-    "pinterest": {icon: "fa-pinterest", color: "#e60023"},
-    "fbpage": {icon: "fa-facebook", color: "#1877f2"},
-    "instabusiness": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-    "tiktokbusiness": {icon: "fa-tiktok", color: "#ff0050"},
-    "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
-    "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
-    "whatsappbusiness": {icon: "fa-whatsapp", color: "#128c7e"},
-    "telegram": {icon: "fa-telegram", color: "#0088cc"},
-    "signal": {icon: "fa-comment", color: "#3a76f0"},
-    "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
-    "whatsappgroup": {icon: "fa-whatsapp", color: "#25d366"},
-    "telegramgroup": {icon: "fa-telegram", color: "#0088cc"},
-    "telegramchannel": {icon: "fa-telegram", color: "#229ed9"},
-    "discord": {icon: "fa-discord", color: "#5865f2"},
-    "fbgroup": {icon: "fa-facebook", color: "#1877f2"},
-    "youtubechannel": {icon: "fa-youtube", color: "#ff0000"},
-    "amazon": {icon: "fa-amazon", color: "#ff9900"},
-    "ebay": {icon: "fa-ebay", color: "#e53238"},
-    "etsy": {icon: "fa-etsy", color: "#f56400"},
-    "shopify": {icon: "fa-shopify", color: "#96bf48"},
-    "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
-    "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
-    "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-    "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
-    "businessphone": {icon: "fa-phone", color: "#764ba2"},
-    "gmail": {icon: "fa-envelope", color: "#ea4335"},
-    "yahoo": {icon: "fa-envelope", color: "#6001d2"},
-    "outlook": {icon: "fa-envelope", color: "#0078d4"},
-    "icloud": {icon: "fa-envelope", color: "#3693f3"}
-};
+    var platformIcons = {
+        "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "facebook": {icon: "fa-facebook", color: "#1877f2"},
+        "tiktok": {icon: "fa-tiktok", color: "#111"},
+        "x": {icon: "fa-x-twitter", color: "#111"},
+        "youtube": {icon: "fa-youtube", color: "#ff0000"},
+        "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
+        "pinterest": {icon: "fa-pinterest", color: "#e60023"},
+        "fbpage": {icon: "fa-facebook", color: "#1877f2"},
+        "instabusiness": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "tiktokbusiness": {icon: "fa-tiktok", color: "#ff0050"},
+        "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
+        "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
+        "whatsappbusiness": {icon: "fa-whatsapp", color: "#128c7e"},
+        "telegram": {icon: "fa-telegram", color: "#0088cc"},
+        "signal": {icon: "fa-comment", color: "#3a76f0"},
+        "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
+        "whatsappgroup": {icon: "fa-whatsapp", color: "#25d366"},
+        "telegramgroup": {icon: "fa-telegram", color: "#0088cc"},
+        "telegramchannel": {icon: "fa-telegram", color: "#229ed9"},
+        "discord": {icon: "fa-discord", color: "#5865f2"},
+        "fbgroup": {icon: "fa-facebook", color: "#1877f2"},
+        "youtubechannel": {icon: "fa-youtube", color: "#ff0000"},
+        "amazon": {icon: "fa-amazon", color: "#ff9900"},
+        "ebay": {icon: "fa-ebay", color: "#e53238"},
+        "etsy": {icon: "fa-etsy", color: "#f56400"},
+        "shopify": {icon: "fa-shopify", color: "#96bf48"},
+        "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
+        "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
+        "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
+        "businessphone": {icon: "fa-phone", color: "#764ba2"},
+        "gmail": {icon: "fa-envelope", color: "#ea4335"},
+        "yahoo": {icon: "fa-envelope", color: "#6001d2"},
+        "outlook": {icon: "fa-envelope", color: "#0078d4"},
+        "icloud": {icon: "fa-envelope", color: "#3693f3"}
+    };
 
     var list = platforms.split(",");
-    var apps =[];
+    var apps = [];
     for (var i = 0; i < list.length; i++) {
         var p = list[i].trim().toLocaleLowerCase();
         if (platformIcons[p]) {
             var linkInput = document.getElementById("link-" + p);
             var codeInput = document.getElementById("code-" + p);
-            var link = linkInput ? linkInput.value :"";
+            var link = linkInput ? linkInput.value : "";
             if (codeInput && codeInput.value && link) {
                 link = codeInput.value + link;
             }
             apps.push({
-                icon:platformIcons[p].icon,
+                icon: platformIcons[p].icon,
                 name: list[i].trim(),
                 color: platformIcons[p].color,
                 link: link
             });
         }
     }
- 
- 
 
     var key = name.toLowerCase();
     firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -210,9 +212,8 @@ var platformIcons = {
                 handle: handle,
                 location: location,
                 apps: apps
-
             }, key);
-            selectedplatforms =[];
+            selectedplatforms = [];
             var buttons = document.querySelectorAll(".platform-btn");
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].classList.remove("selected");
@@ -256,7 +257,7 @@ function updatePhone(user) {
     var appsHTML = "";
     for (var i = 0; i < user.apps.length; i++) {
         var app = user.apps[i];
-        var link =app.link ? app.link : "#";
+        var link = app.link ? app.link : "#";
         var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
         appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
             "<i class='" + iconClass + " " + app.icon + "'></i>" +
@@ -272,57 +273,76 @@ function togglePlatform(btn, platform) {
     if (btn.classList.contains("selected")) {
         btn.classList.remove("selected");
         selectedplatforms = selectedplatforms.filter(function(p) {
-            return p !==platform;
+            return p !== platform;
         });
         var existingInput = document.getElementById("link-" + platform);
         if (existingInput) {
             existingInput.parentElement.remove();
         }
-
     } else {
         btn.classList.add("selected");
         selectedplatforms.push(platform);
         var linkDiv = document.createElement("div");
         linkDiv.style.marginBottom = "8px";
         var placeholders = {
+            "instagram": "https://www.instagram.com/yourusername",
+            "facebook": "https://www.facebook.com/yourusername",
+            "tiktok": "https://www.tiktok.com/@yourusername",
+            "x": "https://x.com/yourusername",
+            "youtube": "https://www.youtube.com/@yourchannel",
+            "snapchat": "https://www.snapchat.com/add/yourusername",
+            "pinterest": "https://www.pinterest.com/yourusername",
+            "fbpage": "https://www.facebook.com/yourpagename",
+            "instabusiness": "https://www.instagram.com/yourbusiness",
+            "tiktokbusiness": "https://www.tiktok.com/@yourbusiness",
+            "linkedin": "https://www.linkedin.com/in/yourusername",
+            "whatsapp": "Your WhatsApp number (+44 7700 900000)",
+            "whatsappbusiness": "Your WhatsApp Business number (+44 7700 900000)",
+            "whatsappgroup": "https://chat.whatsapp.com/yourgroup",
+            "telegram": "https://t.me/yourusername",
+            "telegramgroup": "https://t.me/yourgroupname",
+            "telegramchannel": "https://t.me/yourchannelname",
+            "discord": "https://discord.gg/yourinvite",
+            "fbgroup": "https://www.facebook.com/groups/yourgroupname",
+            "youtubechannel": "https://www.youtube.com/@yourchannel",
+            "messenger": "https://m.me/yourusername",
+            "signal": "Your Signal number (+44 7700 900000)",
+            "amazon": "https://www.amazon.co.uk/s?me=yoursellerid",
+            "ebay": "https://www.ebay.co.uk/usr/yourusername",
+            "etsy": "https://www.etsy.com/shop/yourshopname",
+            "shopify": "https://yourstore.myshopify.com",
+            "tiktokshop": "https://www.tiktok.com/@yourshop/shop",
+            "fbmarketplace": "https://www.facebook.com/marketplace/profile/yourid",
+            "instashop": "https://www.instagram.com/yourshop",
             "gmail": "Your Gmail address (example@gmail.com)",
             "yahoo": "Your Yahoo email (example@yahoo.com)",
             "outlook": "Your Outlook email (example@outlook.com)",
             "icloud": "Your iCloud email (example@icloud.com)",
             "mobile": "Your mobile number (+44 7700 900000)",
-            "businessphone": "Your business number (+44 7700 900000)",
-            "whatsapp": "Your WhatsApp number (+44 7700 900000)",
-            "whatsappbusiness": "Your WhatsApp Business number (+44 7700 900000)",
-            "whatsappgroup": "Your WhatsApp Group invite link...",
-            "telegram": "Your Telegram username or link...",
-            "telegramgroup": "Your Telegram Group link...",
-            "telegramchannel": "Your Telegram Channel link...",
-            "discord": "Your Discord server invite link...",
-            "fbgroup": "Your Facebook Group link...",
-            "fbpage": "Your Facebook Page link...",
-            "instabusiness": "Your Instagram Business link...",
-            "tiktokbusiness": "Your TikTok Business link...",
-            "youtubechannel": "Your YouTube Channel link...",
-            "signal": "Your Signal number (+44 7700 900000)"
+            "businessphone": "Your business number (+44 7700 900000)"
         };
-        var placeholder = placeholders[platform] ? placeholders[platform]: "Your " + platform + " link...";
-            if (platform === "mobile" || platform === "businessphone") {
-                linkDiv.innerHTML ="<div style='display:flex; gap:8px;'>"+
-                "<select id='code-" + platform + "' style='padding:10px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none; width:130px;'>"+
+        var placeholder = placeholders[platform] ? placeholders[platform] : "Your " + platform + " link...";
+        if (platform === "mobile" || platform === "businessphone") {
+            linkDiv.innerHTML = "<div style='display:flex; gap:8px;'>" +
+                "<select id='code-" + platform + "' style='padding:8px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none; width:130px;'>" +
                 "</select>" +
-                "<input type='text' id='link-" + platform + "' placeholder='7700 900000' style='flex:1; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>" +
+                "<input type='text' id='link-" + platform + "' placeholder='7700 900000' style='flex:1; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>" +
                 "</div>";
-
-            } else {
-        linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
-            }
+        } else if(platform === "facebook") {
+            linkDiv.innerHTML =
+                "<div style='display:flex; gap:8px;'>" +
+                "<input type='text' id='link-facebook' placeholder='Click Connect to link Facebook automatically' style='flex:1; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;' readonly>" +
+                "<button onclick='connectFacebook()' style='padding:8px 14px; border-radius:6px; border:none; background:#1877f2; color:white; font-size:13px; cursor:pointer; font-weight:600;'><i class=\"fab fa-facebook\"></i> Connect</button>" +
+                "</div>";   
+        } else {
+            linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>";
+        }
         document.getElementById("platformLinks").appendChild(linkDiv);
         if (platform === "mobile" || platform === "businessphone") {
             setTimeout(function() { loadCountryCodes("code-" + platform); }, 100);
         }
     }
 }
-
 
 function clearSearch() {
     document.getElementById("searchInput").value = "";
@@ -346,7 +366,6 @@ window.onload = function() {
     }
 }
 
-
 function generateQR(link) {
     document.getElementById("qrcode-img").innerHTML = "";
     new QRCode(document.getElementById("qrcode-img"), {
@@ -354,18 +373,17 @@ function generateQR(link) {
         width: 160,
         height: 160,
     });
-    
 }
 
 function showAuth(type) {
     document.getElementById("landing-page").style.display = "none";
     document.getElementById("auth-page").style.display = "block";
-    document.getElementById("dashboard-page").style.display ="none";
+    document.getElementById("dashboard-page").style.display = "none";
     if (type === "login") {
         document.getElementById("login-form").style.display = "block";
-        document.getElementById("register-form").style.display = "none";   
+        document.getElementById("register-form").style.display = "none";
     } else {
-        document.getElementById("login-form").style.display ="none";
+        document.getElementById("login-form").style.display = "none";
         document.getElementById("register-form").style.display = "block";
     }
 }
@@ -376,7 +394,7 @@ function showLanding() {
     document.getElementById("dashboard-page").style.display = "none";
 }
 
-function  showDashboard(user, key) {
+function showDashboard(user, key) {
     currentUserKey = key;
     document.getElementById("dash-welcome").innerHTML = "Welcome back, " + user.name + " 👋";
     document.getElementById("landing-page").style.display = "none";
@@ -388,14 +406,15 @@ function  showDashboard(user, key) {
     avatar.style.backgroundPosition = "";
     avatar.innerHTML = user.name.charAt(0) + "<div style='position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:white; font-size:8px; text-align:center; padding:2px;'>Edit</div>";
     if (user.photo) {
-    avatar.innerHTML = "<div style='position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:white; font-size:8px; text-align:center; padding:2px;'>Edit</div>";
-    avatar.style.backgroundImage = "url(" + user.photo + ")";
-    avatar.style.backgroundSize = "cover";
-    avatar.style.backgroundPosition = "center";
-}
+        avatar.innerHTML = "<div style='position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:white; font-size:8px; text-align:center; padding:2px;'>Edit</div>";
+        avatar.style.backgroundImage = "url(" + user.photo + ")";
+        avatar.style.backgroundSize = "cover";
+        avatar.style.backgroundPosition = "center";
+    }
     document.getElementById("dash-handle").innerHTML = user.handle;
     document.getElementById("dash-location").innerHTML = user.location;
-    var appsHTML ="";
+
+    var appsHTML = "";
     for (var i = 0; i < user.apps.length; i++) {
         var app = user.apps[i];
         var link = "#";
@@ -403,9 +422,9 @@ function  showDashboard(user, key) {
             if (app.icon === "fa-envelope") {
                 link = "mailto:" + app.link;
             } else if (app.icon === "fa-whatsapp") {
-                link = "https://wa.me/" + app.link.replace(/\D/g,"");
+                link = "https://wa.me/" + app.link.replace(/\D/g, "");
             } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
-                link = "tel:" +app.link;
+                link = "tel:" + app.link;
             } else {
                 link = app.link;
             }
@@ -417,16 +436,16 @@ function  showDashboard(user, key) {
                 "gmail": "https://www.google.com/favicon.ico",
                 "yahoo": "https://www.yahoo.com/favicon.ico",
                 "outlook": "https://outlook.live.com/favicon.ico",
-                "icloud": "https://www.icloud.com/favicon.ico",
+                "icloud": "https://www.icloud.com/favicon.ico"
             };
-            iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";     
+            iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";
         } else {
             iconHTML = "<i class='" + iconClass + " " + app.icon + "'></i>";
         }
         appsHTML += "<div class='app-icon' style='background:" + app.color + "' onclick=\"window.open('" + link + "', '_blank')\">" +
-           iconHTML +
-           "<span>" + app.name + "</span>" +
-"</div>";
+            iconHTML +
+            "<span>" + app.name + "</span>" +
+        "</div>";
     }
 
     document.getElementById("dash-apps").innerHTML = appsHTML;
@@ -441,25 +460,22 @@ function logout() {
     });
 }
 
-var currentUserKey ="";
-var editPlatforms =[];
+var currentUserKey = "";
+var editPlatforms = [];
 
 function showEdit() {
     document.getElementById("editForm").style.display = "block";
-    document.getElementById("editName").value = document.getElementById("dash-handle").innerHTML.replace("@", "");
-    document.getElementById("editHandle").value = document.getElementById("dash-handle").innerHTML;
-    document.getElementById("editLocation").value = document.getElementById("dash-location").innerHTML;
 
     editPlatforms = [];
-    
+
     var editAvatar = document.getElementById("edit-avatar");
-    editAvatar.style.backgroundImage ="";
+    editAvatar.style.backgroundImage = "";
     editAvatar.innerHTML = document.getElementById("dash-avatar").innerHTML || "";
     editAvatar.style.backgroundImage = document.getElementById("dash-avatar").style.backgroundImage;
     editAvatar.style.backgroundSize = "cover";
     editAvatar.style.backgroundPosition = "center";
-    
-    document.getElementById("editPlatformLinks").innerHTML ="";
+
+    document.getElementById("editPlatformLinks").innerHTML = "";
 
     db.collection("users").doc(currentUserKey).get().then(function(doc) {
         if (doc.exists) {
@@ -468,7 +484,7 @@ function showEdit() {
             document.getElementById("editHandle").value = user.handle;
             document.getElementById("editLocation").value = user.location;
 
-            var buttons = document.querySelectorAll("#editform .platform-btn");
+            var buttons = document.querySelectorAll("#editForm .platform-btn");
             buttons.forEach(function(btn) {
                 btn.classList.remove("selected");
             });
@@ -480,17 +496,12 @@ function showEdit() {
                 if (btn) btn.classList.add("selected");
                 var linkDiv = document.createElement("div");
                 linkDiv.style.marginBottom = "8px";
-                linkDiv.innerHTML = "<input type='text' id='editlink-" + platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;' value='" + app.link + "'>";
+                linkDiv.innerHTML = "<input type='text' id='editlink-" + platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;' value='" + (app.link || "") + "'>";
                 document.getElementById("editPlatformLinks").appendChild(linkDiv);
             });
         }
     });
-
-
-
-
 }
-
 
 function hideEdit() {
     document.getElementById("editForm").style.display = "none";
@@ -498,23 +509,22 @@ function hideEdit() {
 
 function toggleEditPlatform(btn, platform) {
     if (btn.classList.contains("selected")) {
-    btn.classList.remove("selected");
-    editPlatforms = editPlatforms.filter(function(p) {
-        return p !== platform;
-    });
-    var existingInput = document.getElementById("editlink-" + platform);
-    if (existingInput) {
-        existingInput.parentElement.remove();
+        btn.classList.remove("selected");
+        editPlatforms = editPlatforms.filter(function(p) {
+            return p !== platform;
+        });
+        var existingInput = document.getElementById("editlink-" + platform);
+        if (existingInput) {
+            existingInput.parentElement.remove();
+        }
+    } else {
+        btn.classList.add("selected");
+        editPlatforms.push(platform);
+        var linkDiv = document.createElement("div");
+        linkDiv.style.marginBottom = "8px";
+        linkDiv.innerHTML = "<input type='text' id='editlink-" + platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>";
+        document.getElementById("editPlatformLinks").appendChild(linkDiv);
     }
-} else {
-    btn.classList.add("selected");
-    editPlatforms.push(platform);
-    var linkDiv = document.createElement("div");
-    linkDiv.style.marginBottom = "8px";
-    linkDiv.innerHTML = "<input type='text' id='editlink-" +platform + "' placeholder='Your " + platform + " link...' style='width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2e2e3e; background:#0a0a0f; color:white; font-size:13px; outline:none;'>";
-    document.getElementById("editPlatformLinks").appendChild(linkDiv);
- }
-
 }
 
 function saveEdit() {
@@ -523,49 +533,49 @@ function saveEdit() {
     var location = document.getElementById("editLocation").value;
 
     if (name === "" || handle === "" || location === "") {
-        showToast("please fill all fields!");
+        showToast("Please fill all fields!");
         return;
     }
 
-   var platformIcons = {
-    "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-    "facebook": {icon: "fa-facebook", color: "#1877f2"},
-    "tiktok": {icon: "fa-tiktok", color: "#111"},
-    "x": {icon: "fa-x-twitter", color: "#111"},
-    "youtube": {icon: "fa-youtube", color: "#ff0000"},
-    "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
-    "pinterest": {icon: "fa-pinterest", color: "#e60023"},
-    "fbpage": {icon: "fa-facebook", color: "#1877f2"},
-    "instabusiness": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-    "tiktokbusiness": {icon: "fa-tiktok", color: "#ff0050"},
-    "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
-    "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
-    "whatsappbusiness": {icon: "fa-whatsapp", color: "#128c7e"},
-    "telegram": {icon: "fa-telegram", color: "#0088cc"},
-    "signal": {icon: "fa-comment", color: "#3a76f0"},
-    "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
-    "whatsappgroup": {icon: "fa-whatsapp", color: "#25d366"},
-    "telegramgroup": {icon: "fa-telegram", color: "#0088cc"},
-    "telegramchannel": {icon: "fa-telegram", color: "#229ed9"},
-    "discord": {icon: "fa-discord", color: "#5865f2"},
-    "fbgroup": {icon: "fa-facebook", color: "#1877f2"},
-    "youtubechannel": {icon: "fa-youtube", color: "#ff0000"},
-    "amazon": {icon: "fa-amazon", color: "#ff9900"},
-    "ebay": {icon: "fa-ebay", color: "#e53238"},
-    "etsy": {icon: "fa-etsy", color: "#f56400"},
-    "shopify": {icon: "fa-shopify", color: "#96bf48"},
-    "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
-    "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
-    "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
-    "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
-    "businessphone": {icon: "fa-phone", color: "#764ba2"},
-    "gmail": {icon: "fa-envelope", color: "#ea4335"},
-    "yahoo": {icon: "fa-envelope", color: "#6001d2"},
-    "outlook": {icon: "fa-envelope", color: "#0078d4"},
-    "icloud": {icon: "fa-envelope", color: "#3693f3"}
-};
+    var platformIcons = {
+        "instagram": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "facebook": {icon: "fa-facebook", color: "#1877f2"},
+        "tiktok": {icon: "fa-tiktok", color: "#111"},
+        "x": {icon: "fa-x-twitter", color: "#111"},
+        "youtube": {icon: "fa-youtube", color: "#ff0000"},
+        "snapchat": {icon: "fa-snapchat", color: "#fffc00"},
+        "pinterest": {icon: "fa-pinterest", color: "#e60023"},
+        "fbpage": {icon: "fa-facebook", color: "#1877f2"},
+        "instabusiness": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "tiktokbusiness": {icon: "fa-tiktok", color: "#ff0050"},
+        "linkedin": {icon: "fa-linkedin", color: "#0077b5"},
+        "whatsapp": {icon: "fa-whatsapp", color: "#25d366"},
+        "whatsappbusiness": {icon: "fa-whatsapp", color: "#128c7e"},
+        "telegram": {icon: "fa-telegram", color: "#0088cc"},
+        "signal": {icon: "fa-comment", color: "#3a76f0"},
+        "messenger": {icon: "fa-facebook-messenger", color: "#0084ff"},
+        "whatsappgroup": {icon: "fa-whatsapp", color: "#25d366"},
+        "telegramgroup": {icon: "fa-telegram", color: "#0088cc"},
+        "telegramchannel": {icon: "fa-telegram", color: "#229ed9"},
+        "discord": {icon: "fa-discord", color: "#5865f2"},
+        "fbgroup": {icon: "fa-facebook", color: "#1877f2"},
+        "youtubechannel": {icon: "fa-youtube", color: "#ff0000"},
+        "amazon": {icon: "fa-amazon", color: "#ff9900"},
+        "ebay": {icon: "fa-ebay", color: "#e53238"},
+        "etsy": {icon: "fa-etsy", color: "#f56400"},
+        "shopify": {icon: "fa-shopify", color: "#96bf48"},
+        "tiktokshop": {icon: "fa-tiktok", color: "#ff0050"},
+        "fbmarketplace": {icon: "fa-facebook", color: "#1877f2"},
+        "instashop": {icon: "fa-instagram", color: "linear-gradient(135deg, #f09433, #dc2743)"},
+        "mobile": {icon: "fa-mobile-alt", color: "#667eea"},
+        "businessphone": {icon: "fa-phone", color: "#764ba2"},
+        "gmail": {icon: "fa-envelope", color: "#ea4335"},
+        "yahoo": {icon: "fa-envelope", color: "#6001d2"},
+        "outlook": {icon: "fa-envelope", color: "#0078d4"},
+        "icloud": {icon: "fa-envelope", color: "#3693f3"}
+    };
 
-var apps = [];
+    var apps = [];
     for (var i = 0; i < editPlatforms.length; i++) {
         var p = editPlatforms[i];
         if (platformIcons[p]) {
@@ -580,23 +590,23 @@ var apps = [];
         }
     }
 
-db.collection("users").doc(currentUserKey).update({
-    name: name,
-    handle: handle,
-    location: location,
-    apps: apps
-}).then(function() {
-    showToast("profile updated!");
-    showDashboard({
+    db.collection("users").doc(currentUserKey).update({
         name: name,
         handle: handle,
         location: location,
         apps: apps
-    }, currentUserKey);
-    hideEdit();
-}).catch(function(error) {
-    showToast("Error: " + error.message);
-});
+    }).then(function() {
+        showToast("✓ Profile updated!");
+        showDashboard({
+            name: name,
+            handle: handle,
+            location: location,
+            apps: apps
+        }, currentUserKey);
+        hideEdit();
+    }).catch(function(error) {
+        showToast("Error: " + error.message);
+    });
 }
 
 function showToast(message) {
@@ -605,11 +615,10 @@ function showToast(message) {
     toast.style.display = "block";
     setTimeout(function() {
         toast.style.display = "none";
-    }, 3000 );
+    }, 3000);
 }
 
-
-var currentModalKey ="";
+var currentModalKey = "";
 
 function shareProfile() {
     var shareLink = window.location.href.split('?')[0] + "?user=" + currentModalKey;
@@ -619,10 +628,8 @@ function shareProfile() {
     tempInput.select();
     document.execCommand("copy");
     document.body.removeChild(tempInput);
-    showToast("✓ Link: " + shareLink);
-    
+    showToast("✓ Link copied: " + shareLink);
 }
-
 
 function loginWithGoogle() {
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -638,7 +645,7 @@ function loginWithGoogle() {
                 showAuth('register');
                 document.getElementById("regName").value = name;
                 document.getElementById("regEmail").value = email;
-                showToast("Welcome! Please Complete your profile 👋");  
+                showToast("Welcome! Please complete your profile 👋");
             } else {
                 querySnapshot.forEach(function(doc) {
                     var userData = doc.data();
@@ -653,12 +660,11 @@ function loginWithGoogle() {
     });
 }
 
-
 function uploadPhoto(input) {
     var file = input.files[0];
-    if (!file)  return;
+    if (!file) return;
 
-    showToast("uploading photo...");
+    showToast("Uploading photo...");
 
     var formData = new FormData();
     formData.append("file", file);
@@ -669,9 +675,9 @@ function uploadPhoto(input) {
         method: "POST",
         body: formData
     })
-     .then(function(response) { return response.json(); })
-     .then(function(data) {
-        var photoUrl =data.secure_url;
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+        var photoUrl = data.secure_url;
         var avatar = document.getElementById("dash-avatar");
         avatar.innerHTML = "";
         avatar.style.backgroundImage = "url(" + photoUrl + ")";
@@ -680,15 +686,14 @@ function uploadPhoto(input) {
 
         db.collection("users").doc(currentUserKey).update({
             photo: photoUrl
-     }).then(function() {
-        showToast("✓ Photo Updated!");
+        }).then(function() {
+            showToast("✓ Photo updated!");
+        });
+    })
+    .catch(function(error) {
+        showToast("Error uploading photo!");
     });
- })
- .catch(function(error) {
-    showToast("Error uploading photo!");
- });
 }
-
 
 function uploadEditPhoto(input) {
     var file = input.files[0];
@@ -721,7 +726,7 @@ function uploadEditPhoto(input) {
         dashAvatar.style.backgroundPosition = "center";
 
         db.collection("users").doc(currentUserKey).update({
-            photo:photoUrl
+            photo: photoUrl
         }).then(function() {
             showToast("✓ Photo updated!");
         });
@@ -743,7 +748,6 @@ function toggleCategory(name) {
     }
 }
 
-
 function getCategoryForApp(appName) {
     var categories = {
         "personal": ["instagram", "facebook", "tiktok", "x", "youtube", "snapchat", "pinterest"],
@@ -755,18 +759,17 @@ function getCategoryForApp(appName) {
         "email": ["gmail", "yahoo", "outlook", "icloud"]
     };
     for (var cat in categories) {
-        if (categories[cat].indexOf(appName.toLocaleLowerCase()) !== -1){
+        if (categories[cat].indexOf(appName.toLocaleLowerCase()) !== -1) {
             return cat;
         }
     }
     return "other";
 }
 
-
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
-        .then(function(registeration) {
+        .then(function(registration) {
             console.log('PeeP PWA Ready!');
         })
         .catch(function(error) {
@@ -774,7 +777,6 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
-
 
 function loadCountryCodes(selectID) {
     fetch("https://restcountries.com/v3.1/all?fields=name,idd,flag")
@@ -785,14 +787,14 @@ function loadCountryCodes(selectID) {
         });
         var select = document.getElementById(selectID);
         if (!select) return;
-        select.innerHTML ="";
+        select.innerHTML = "";
         countries.forEach(function(country) {
-            if(country.idd && country.idd.root) {
+            if (country.idd && country.idd.root) {
                 var code = country.idd.root + (country.idd.suffixes && country.idd.suffixes.length === 1 ? country.idd.suffixes[0] : "");
                 var option = document.createElement("option");
                 option.value = code;
-                option.text = country.flag + "" + country.name.common + " " + code;
-                if (code === "+93") option.selected = true;
+                option.text = country.flag + " " + country.name.common + " " + code;
+                if (code === "+44") option.selected = true;
                 select.appendChild(option);
             }
         });
@@ -811,7 +813,6 @@ function toggleEditCategory(name) {
     }
 }
 
-
 function forgotPassword() {
     var email = document.getElementById("loginEmail").value;
     if (email === "") {
@@ -820,9 +821,29 @@ function forgotPassword() {
     }
     firebase.auth().sendPasswordResetEmail(email)
     .then(function() {
-        showToast("✓ Password reset email sent! Check your inbox!");
+        showToast("✓ Password reset email sent! Check your inbox.");
     })
     .catch(function(error) {
+        showToast("Error: " + error.message);
+    });
+}
+
+
+function connectFacebook() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    provider.addScope('public_profile');
+    firebase.auth().signInWithPopup(provider)
+    .then(function(result) {
+        var fbName = result.user.displayName;
+        var fbId = result.additionalUserInfo.profile.id;
+        var fbLink = "https://www.facebook.com/" + fbId;
+        var linkInput = document.getElementById("link-facebook");
+        if (linkInput) {
+            linkInput.value = fbLink;
+            linkInput.style.borderColor = "#1877f2";
+        }
+        showToast("✓ Facebook connected: " + fbName + "!");
+    }).catch(function(error) {
         showToast("Error: " + error.message);
     });
 }
