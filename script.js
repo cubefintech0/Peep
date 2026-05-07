@@ -105,7 +105,6 @@ function search() {
             document.getElementById("searchModal").style.display = "flex";
 
         } else {
-            // ── NOT FOUND ── (FIXED: was broken syntax + wrong colors)
             document.getElementById("modal-avatar").innerHTML = "?";
             document.getElementById("modal-handle").innerHTML = "";
             document.getElementById("modal-location").innerHTML = "";
@@ -269,77 +268,163 @@ function updatePhone(user) {
 
 var selectedplatforms = [];
 
+// ─── Deep link config for each platform ───────────────────────────────────────
+// appScheme: tried first on mobile (opens native app)
+// webUrl:    fallback if app not installed / on desktop
+// btnColor:  connect button brand colour
+// btnIcon:   Font Awesome class
+// btnLabel:  button text
+var platformDeepLinks = {
+    "instagram":       { appScheme: "instagram://",            webUrl: "https://www.instagram.com",         btnColor: "#dc2743", btnIcon: "fab fa-instagram",         btnLabel: "Open Instagram" },
+    "instabusiness":   { appScheme: "instagram://",            webUrl: "https://www.instagram.com",         btnColor: "#dc2743", btnIcon: "fab fa-instagram",         btnLabel: "Open Instagram" },
+    "instashop":       { appScheme: "instagram://",            webUrl: "https://www.instagram.com",         btnColor: "#dc2743", btnIcon: "fab fa-instagram",         btnLabel: "Open Instagram" },
+    "facebook":        { appScheme: "fb://",                   webUrl: "https://www.facebook.com",          btnColor: "#1877f2", btnIcon: "fab fa-facebook",          btnLabel: "Open Facebook" },
+    "fbpage":          { appScheme: "fb://",                   webUrl: "https://www.facebook.com",          btnColor: "#1877f2", btnIcon: "fab fa-facebook",          btnLabel: "Open Facebook" },
+    "fbgroup":         { appScheme: "fb://",                   webUrl: "https://www.facebook.com",          btnColor: "#1877f2", btnIcon: "fab fa-facebook",          btnLabel: "Open Facebook" },
+    "fbmarketplace":   { appScheme: "fb://marketplace",        webUrl: "https://www.facebook.com/marketplace", btnColor: "#1877f2", btnIcon: "fab fa-facebook",       btnLabel: "Open Facebook" },
+    "tiktok":          { appScheme: "snssdk1233://",           webUrl: "https://www.tiktok.com",            btnColor: "#111111", btnIcon: "fab fa-tiktok",            btnLabel: "Open TikTok" },
+    "tiktokbusiness":  { appScheme: "snssdk1233://",           webUrl: "https://www.tiktok.com",            btnColor: "#ff0050", btnIcon: "fab fa-tiktok",            btnLabel: "Open TikTok" },
+    "tiktokshop":      { appScheme: "snssdk1233://",           webUrl: "https://www.tiktok.com",            btnColor: "#ff0050", btnIcon: "fab fa-tiktok",            btnLabel: "Open TikTok" },
+    "x":               { appScheme: "twitter://",              webUrl: "https://x.com",                     btnColor: "#111111", btnIcon: "fab fa-x-twitter",         btnLabel: "Open X" },
+    "youtube":         { appScheme: "youtube://",              webUrl: "https://www.youtube.com",           btnColor: "#ff0000", btnIcon: "fab fa-youtube",           btnLabel: "Open YouTube" },
+    "youtubechannel":  { appScheme: "youtube://",              webUrl: "https://www.youtube.com",           btnColor: "#ff0000", btnIcon: "fab fa-youtube",           btnLabel: "Open YouTube" },
+    "snapchat":        { appScheme: "snapchat://",             webUrl: "https://www.snapchat.com",          btnColor: "#ffcc00", btnIcon: "fab fa-snapchat",          btnLabel: "Open Snapchat" },
+    "pinterest":       { appScheme: "pinterest://",            webUrl: "https://www.pinterest.com",         btnColor: "#e60023", btnIcon: "fab fa-pinterest",         btnLabel: "Open Pinterest" },
+    "linkedin":        { appScheme: "linkedin://",             webUrl: "https://www.linkedin.com",          btnColor: "#0077b5", btnIcon: "fab fa-linkedin",          btnLabel: "Open LinkedIn" },
+    "whatsapp":        { appScheme: "whatsapp://",             webUrl: "https://wa.me",                     btnColor: "#25d366", btnIcon: "fab fa-whatsapp",          btnLabel: "Open WhatsApp" },
+    "whatsappbusiness":{ appScheme: "whatsapp://",             webUrl: "https://wa.me",                     btnColor: "#128c7e", btnIcon: "fab fa-whatsapp",          btnLabel: "Open WhatsApp" },
+    "whatsappgroup":   { appScheme: "whatsapp://",             webUrl: "https://chat.whatsapp.com",         btnColor: "#25d366", btnIcon: "fab fa-whatsapp",          btnLabel: "Open WhatsApp" },
+    "telegram":        { appScheme: "tg://",                   webUrl: "https://t.me",                      btnColor: "#0088cc", btnIcon: "fab fa-telegram",          btnLabel: "Open Telegram" },
+    "telegramgroup":   { appScheme: "tg://",                   webUrl: "https://t.me",                      btnColor: "#0088cc", btnIcon: "fab fa-telegram",          btnLabel: "Open Telegram" },
+    "telegramchannel": { appScheme: "tg://",                   webUrl: "https://t.me",                      btnColor: "#229ed9", btnIcon: "fab fa-telegram",          btnLabel: "Open Telegram" },
+    "signal":          { appScheme: "sgnl://",                 webUrl: "https://signal.org",                btnColor: "#3a76f0", btnIcon: "fas fa-comment",           btnLabel: "Open Signal" },
+    "messenger":       { appScheme: "fb-messenger://",         webUrl: "https://m.me",                      btnColor: "#0084ff", btnIcon: "fab fa-facebook-messenger",btnLabel: "Open Messenger" },
+    "discord":         { appScheme: "discord://",              webUrl: "https://discord.com",               btnColor: "#5865f2", btnIcon: "fab fa-discord",           btnLabel: "Open Discord" },
+    "amazon":          { appScheme: "com.amazon.mobile.shopping://", webUrl: "https://www.amazon.co.uk",   btnColor: "#ff9900", btnIcon: "fab fa-amazon",            btnLabel: "Open Amazon" },
+    "ebay":            { appScheme: "ebay://",                 webUrl: "https://www.ebay.co.uk",            btnColor: "#e53238", btnIcon: "fab fa-ebay",              btnLabel: "Open eBay" },
+    "etsy":            { appScheme: "etsy://",                 webUrl: "https://www.etsy.com",              btnColor: "#f56400", btnIcon: "fab fa-etsy",              btnLabel: "Open Etsy" },
+    "shopify":         { appScheme: null,                      webUrl: "https://www.shopify.com",           btnColor: "#96bf48", btnIcon: "fab fa-shopify",           btnLabel: "Open Shopify" },
+    "gmail":           { appScheme: "googlegmail://",          webUrl: "https://mail.google.com",           btnColor: "#ea4335", btnIcon: "fas fa-envelope",          btnLabel: "Open Gmail" },
+    "yahoo":           { appScheme: "ymail://",                webUrl: "https://mail.yahoo.com",            btnColor: "#6001d2", btnIcon: "fas fa-envelope",          btnLabel: "Open Yahoo" },
+    "outlook":         { appScheme: "ms-outlook://",           webUrl: "https://outlook.live.com",          btnColor: "#0078d4", btnIcon: "fas fa-envelope",          btnLabel: "Open Outlook" },
+    "icloud":          { appScheme: null,                      webUrl: "https://www.icloud.com/mail",       btnColor: "#3693f3", btnIcon: "fas fa-envelope",          btnLabel: "Open iCloud" }
+};
+
+// ─── Placeholders ─────────────────────────────────────────────────────────────
+var platformPlaceholders = {
+    "instagram": "https://www.instagram.com/yourusername",
+    "facebook": "https://www.facebook.com/yourusername",
+    "tiktok": "https://www.tiktok.com/@yourusername",
+    "x": "https://x.com/yourusername",
+    "youtube": "https://www.youtube.com/@yourchannel",
+    "snapchat": "https://www.snapchat.com/add/yourusername",
+    "pinterest": "https://www.pinterest.com/yourusername",
+    "fbpage": "https://www.facebook.com/yourpagename",
+    "instabusiness": "https://www.instagram.com/yourbusiness",
+    "tiktokbusiness": "https://www.tiktok.com/@yourbusiness",
+    "linkedin": "https://www.linkedin.com/in/yourusername",
+    "whatsapp": "Your WhatsApp number (+44 7700 900000)",
+    "whatsappbusiness": "Your WhatsApp Business number (+44 7700 900000)",
+    "whatsappgroup": "https://chat.whatsapp.com/yourgroup",
+    "telegram": "https://t.me/yourusername",
+    "telegramgroup": "https://t.me/yourgroupname",
+    "telegramchannel": "https://t.me/yourchannelname",
+    "discord": "https://discord.gg/yourinvite",
+    "fbgroup": "https://www.facebook.com/groups/yourgroupname",
+    "youtubechannel": "https://www.youtube.com/@yourchannel",
+    "messenger": "https://m.me/yourusername",
+    "signal": "Your Signal number (+44 7700 900000)",
+    "amazon": "https://www.amazon.co.uk/s?me=yoursellerid",
+    "ebay": "https://www.ebay.co.uk/usr/yourusername",
+    "etsy": "https://www.etsy.com/shop/yourshopname",
+    "shopify": "https://yourstore.myshopify.com",
+    "tiktokshop": "https://www.tiktok.com/@yourshop/shop",
+    "fbmarketplace": "https://www.facebook.com/marketplace/profile/yourid",
+    "instashop": "https://www.instagram.com/yourshop",
+    "gmail": "Your Gmail address (example@gmail.com)",
+    "yahoo": "Your Yahoo email (example@yahoo.com)",
+    "outlook": "Your Outlook email (example@outlook.com)",
+    "icloud": "Your iCloud email (example@icloud.com)",
+    "mobile": "Your mobile number (+44 7700 900000)",
+    "businessphone": "Your business number (+44 7700 900000)"
+};
+
+// ─── Helper: open native app → fallback to web ────────────────────────────────
+function openNativeApp(platform) {
+    var cfg = platformDeepLinks[platform];
+    if (!cfg) return;
+
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile && cfg.appScheme) {
+        // Try to open the native app
+        var start = Date.now();
+        window.location.href = cfg.appScheme;
+        // After 1.5s, if still on page (app didn't open), fall back to web
+        setTimeout(function() {
+            if (Date.now() - start < 2000) {
+                window.open(cfg.webUrl, "_blank");
+            }
+        }, 1500);
+    } else {
+        window.open(cfg.webUrl, "_blank");
+    }
+
+    // Unlock the input and prompt user to paste their link
+    var linkInput = document.getElementById("link-" + platform);
+    if (linkInput) {
+        linkInput.removeAttribute("readonly");
+        linkInput.placeholder = "Paste your " + platform + " profile link here...";
+        linkInput.focus();
+        showToast("Copy your " + platform + " link from the app and paste it here! 👆");
+    }
+}
+
+// ─── Main togglePlatform ──────────────────────────────────────────────────────
 function togglePlatform(btn, platform) {
     if (btn.classList.contains("selected")) {
+        // Deselect
         btn.classList.remove("selected");
-        selectedplatforms = selectedplatforms.filter(function(p) {
-            return p !== platform;
-        });
+        selectedplatforms = selectedplatforms.filter(function(p) { return p !== platform; });
         var existingInput = document.getElementById("link-" + platform);
-        if (existingInput) {
-            existingInput.parentElement.remove();
-        }
+        if (existingInput) existingInput.parentElement.remove();
     } else {
+        // Select
         btn.classList.add("selected");
         selectedplatforms.push(platform);
+
         var linkDiv = document.createElement("div");
         linkDiv.style.marginBottom = "8px";
-        var placeholders = {
-            "instagram": "https://www.instagram.com/yourusername",
-            "facebook": "https://www.facebook.com/yourusername",
-            "tiktok": "https://www.tiktok.com/@yourusername",
-            "x": "https://x.com/yourusername",
-            "youtube": "https://www.youtube.com/@yourchannel",
-            "snapchat": "https://www.snapchat.com/add/yourusername",
-            "pinterest": "https://www.pinterest.com/yourusername",
-            "fbpage": "https://www.facebook.com/yourpagename",
-            "instabusiness": "https://www.instagram.com/yourbusiness",
-            "tiktokbusiness": "https://www.tiktok.com/@yourbusiness",
-            "linkedin": "https://www.linkedin.com/in/yourusername",
-            "whatsapp": "Your WhatsApp number (+44 7700 900000)",
-            "whatsappbusiness": "Your WhatsApp Business number (+44 7700 900000)",
-            "whatsappgroup": "https://chat.whatsapp.com/yourgroup",
-            "telegram": "https://t.me/yourusername",
-            "telegramgroup": "https://t.me/yourgroupname",
-            "telegramchannel": "https://t.me/yourchannelname",
-            "discord": "https://discord.gg/yourinvite",
-            "fbgroup": "https://www.facebook.com/groups/yourgroupname",
-            "youtubechannel": "https://www.youtube.com/@yourchannel",
-            "messenger": "https://m.me/yourusername",
-            "signal": "Your Signal number (+44 7700 900000)",
-            "amazon": "https://www.amazon.co.uk/s?me=yoursellerid",
-            "ebay": "https://www.ebay.co.uk/usr/yourusername",
-            "etsy": "https://www.etsy.com/shop/yourshopname",
-            "shopify": "https://yourstore.myshopify.com",
-            "tiktokshop": "https://www.tiktok.com/@yourshop/shop",
-            "fbmarketplace": "https://www.facebook.com/marketplace/profile/yourid",
-            "instashop": "https://www.instagram.com/yourshop",
-            "gmail": "Your Gmail address (example@gmail.com)",
-            "yahoo": "Your Yahoo email (example@yahoo.com)",
-            "outlook": "Your Outlook email (example@outlook.com)",
-            "icloud": "Your iCloud email (example@icloud.com)",
-            "mobile": "Your mobile number (+44 7700 900000)",
-            "businessphone": "Your business number (+44 7700 900000)"
-        };
-        var placeholder = placeholders[platform] ? placeholders[platform] : "Your " + platform + " link...";
+
+        var placeholder = platformPlaceholders[platform] || ("Your " + platform + " link...");
+        var cfg = platformDeepLinks[platform];
+
         if (platform === "mobile" || platform === "businessphone") {
-            linkDiv.innerHTML = "<div style='display:flex; gap:8px;'>" +
-                "<select id='code-" + platform + "' style='padding:8px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none; width:130px;'>" +
-                "</select>" +
-                "<input type='text' id='link-" + platform + "' placeholder='7700 900000' style='flex:1; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>" +
-                "</div>";
-        } else if(platform === "facebook") {
+            // Phone number with country code selector
             linkDiv.innerHTML =
                 "<div style='display:flex; gap:8px;'>" +
-                "<input type='text' id='link-facebook' placeholder='Click Connect to link Facebook automatically' style='flex:1; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;' readonly>" +
-                "<button onclick='connectFacebook()' style='padding:8px 14px; border-radius:6px; border:none; background:#1877f2; color:white; font-size:13px; cursor:pointer; font-weight:600;'><i class=\"fab fa-facebook\"></i> Connect</button>" +
-                "</div>";   
-        } else {
-            linkDiv.innerHTML = "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>";
-        }
-        document.getElementById("platformLinks").appendChild(linkDiv);
-        if (platform === "mobile" || platform === "businessphone") {
+                "<select id='code-" + platform + "' style='padding:8px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none; width:130px;'></select>" +
+                "<input type='text' id='link-" + platform + "' placeholder='7700 900000' style='flex:1; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>" +
+                "</div>";
+            document.getElementById("platformLinks").appendChild(linkDiv);
             setTimeout(function() { loadCountryCodes("code-" + platform); }, 100);
+
+        } else if (cfg) {
+            // Platform with deep-link Connect button
+            linkDiv.innerHTML =
+                "<div style='display:flex; gap:8px; align-items:center;'>" +
+                "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='flex:1; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>" +
+                "<button onclick='openNativeApp(\"" + platform + "\")' style='padding:8px 14px; border-radius:6px; border:none; background:" + cfg.btnColor + "; color:white; font-size:13px; cursor:pointer; font-weight:600; white-space:nowrap; display:flex; align-items:center; gap:6px;'>" +
+                "<i class='" + cfg.btnIcon + "'></i> " + cfg.btnLabel +
+                "</button>" +
+                "</div>";
+            document.getElementById("platformLinks").appendChild(linkDiv);
+
+        } else {
+            // Plain text input (no deep link)
+            linkDiv.innerHTML =
+                "<input type='text' id='link-" + platform + "' placeholder='" + placeholder + "' style='width:100%; padding:8px 12px; border-radius:6px; border:1px solid #d0d7de; background:#ffffff; color:#24292f; font-size:13px; outline:none;'>";
+            document.getElementById("platformLinks").appendChild(linkDiv);
         }
     }
 }
@@ -510,13 +595,9 @@ function hideEdit() {
 function toggleEditPlatform(btn, platform) {
     if (btn.classList.contains("selected")) {
         btn.classList.remove("selected");
-        editPlatforms = editPlatforms.filter(function(p) {
-            return p !== platform;
-        });
+        editPlatforms = editPlatforms.filter(function(p) { return p !== platform; });
         var existingInput = document.getElementById("editlink-" + platform);
-        if (existingInput) {
-            existingInput.parentElement.remove();
-        }
+        if (existingInput) existingInput.parentElement.remove();
     } else {
         btn.classList.add("selected");
         editPlatforms.push(platform);
@@ -663,18 +744,12 @@ function loginWithGoogle() {
 function uploadPhoto(input) {
     var file = input.files[0];
     if (!file) return;
-
     showToast("Uploading photo...");
-
     var formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "i7q7kwai");
     formData.append("cloud_name", "dlrhbfvyb");
-
-    fetch("https://api.cloudinary.com/v1_1/dlrhbfvyb/image/upload", {
-        method: "POST",
-        body: formData
-    })
+    fetch("https://api.cloudinary.com/v1_1/dlrhbfvyb/image/upload", { method: "POST", body: formData })
     .then(function(response) { return response.json(); })
     .then(function(data) {
         var photoUrl = data.secure_url;
@@ -683,33 +758,21 @@ function uploadPhoto(input) {
         avatar.style.backgroundImage = "url(" + photoUrl + ")";
         avatar.style.backgroundSize = "cover";
         avatar.style.backgroundPosition = "center";
-
-        db.collection("users").doc(currentUserKey).update({
-            photo: photoUrl
-        }).then(function() {
-            showToast("✓ Photo updated!");
-        });
+        db.collection("users").doc(currentUserKey).update({ photo: photoUrl })
+        .then(function() { showToast("✓ Photo updated!"); });
     })
-    .catch(function(error) {
-        showToast("Error uploading photo!");
-    });
+    .catch(function() { showToast("Error uploading photo!"); });
 }
 
 function uploadEditPhoto(input) {
     var file = input.files[0];
     if (!file) return;
-
     showToast("Uploading photo...");
-
     var formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "i7q7kwai");
     formData.append("cloud_name", "dlrhbfvyb");
-
-    fetch("https://api.cloudinary.com/v1_1/dlrhbfvyb/image/upload", {
-        method: "POST",
-        body: formData
-    })
+    fetch("https://api.cloudinary.com/v1_1/dlrhbfvyb/image/upload", { method: "POST", body: formData })
     .then(function(response) { return response.json(); })
     .then(function(data) {
         var photoUrl = data.secure_url;
@@ -718,34 +781,29 @@ function uploadEditPhoto(input) {
         editAvatar.style.backgroundImage = "url(" + photoUrl + ")";
         editAvatar.style.backgroundSize = "cover";
         editAvatar.style.backgroundPosition = "center";
-
         var dashAvatar = document.getElementById("dash-avatar");
         dashAvatar.innerHTML = "";
         dashAvatar.style.backgroundImage = "url(" + photoUrl + ")";
         dashAvatar.style.backgroundSize = "cover";
         dashAvatar.style.backgroundPosition = "center";
-
-        db.collection("users").doc(currentUserKey).update({
-            photo: photoUrl
-        }).then(function() {
-            showToast("✓ Photo updated!");
-        });
+        db.collection("users").doc(currentUserKey).update({ photo: photoUrl })
+        .then(function() { showToast("✓ Photo updated!"); });
     })
-    .catch(function(error) {
-        showToast("Error uploading photo!");
-    });
+    .catch(function() { showToast("Error uploading photo!"); });
 }
 
 function toggleCategory(name) {
     var body = document.getElementById("cat-" + name);
     var arrow = body.previousElementSibling.querySelector(".category-arrow");
-    if (body.style.display === "none") {
-        body.style.display = "block";
-        arrow.innerHTML = "▲";
-    } else {
-        body.style.display = "none";
-        arrow.innerHTML = "▼";
-    }
+    if (body.style.display === "none") { body.style.display = "block"; arrow.innerHTML = "▲"; }
+    else { body.style.display = "none"; arrow.innerHTML = "▼"; }
+}
+
+function toggleEditCategory(name) {
+    var body = document.getElementById("edit-cat-" + name);
+    var arrow = body.previousElementSibling.querySelector(".category-arrow");
+    if (body.style.display === "none") { body.style.display = "block"; arrow.innerHTML = "▲"; }
+    else { body.style.display = "none"; arrow.innerHTML = "▼"; }
 }
 
 function getCategoryForApp(appName) {
@@ -759,9 +817,7 @@ function getCategoryForApp(appName) {
         "email": ["gmail", "yahoo", "outlook", "icloud"]
     };
     for (var cat in categories) {
-        if (categories[cat].indexOf(appName.toLocaleLowerCase()) !== -1) {
-            return cat;
-        }
+        if (categories[cat].indexOf(appName.toLocaleLowerCase()) !== -1) return cat;
     }
     return "other";
 }
@@ -769,12 +825,8 @@ function getCategoryForApp(appName) {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
-        .then(function(registration) {
-            console.log('PeeP PWA Ready!');
-        })
-        .catch(function(error) {
-            console.log('SW Error: ', error);
-        });
+        .then(function() { console.log('PeeP PWA Ready!'); })
+        .catch(function(error) { console.log('SW Error: ', error); });
     });
 }
 
@@ -782,9 +834,7 @@ function loadCountryCodes(selectID) {
     fetch("https://restcountries.com/v3.1/all?fields=name,idd,flag")
     .then(function(response) { return response.json(); })
     .then(function(countries) {
-        countries.sort(function(a, b) {
-            return a.name.common.localeCompare(b.name.common);
-        });
+        countries.sort(function(a, b) { return a.name.common.localeCompare(b.name.common); });
         var select = document.getElementById(selectID);
         if (!select) return;
         select.innerHTML = "";
@@ -801,47 +851,15 @@ function loadCountryCodes(selectID) {
     });
 }
 
-function toggleEditCategory(name) {
-    var body = document.getElementById("edit-cat-" + name);
-    var arrow = body.previousElementSibling.querySelector(".category-arrow");
-    if (body.style.display === "none") {
-        body.style.display = "block";
-        arrow.innerHTML = "▲";
-    } else {
-        body.style.display = "none";
-        arrow.innerHTML = "▼";
-    }
-}
-
 function forgotPassword() {
     var email = document.getElementById("loginEmail").value;
-    if (email === "") {
-        showToast("Please enter your email first!");
-        return;
-    }
+    if (email === "") { showToast("Please enter your email first!"); return; }
     firebase.auth().sendPasswordResetEmail(email)
-    .then(function() {
-        showToast("✓ Password reset email sent! Check your inbox.");
-    })
-    .catch(function(error) {
-        showToast("Error: " + error.message);
-    });
+    .then(function() { showToast("✓ Password reset email sent! Check your inbox."); })
+    .catch(function(error) { showToast("Error: " + error.message); });
 }
 
-
+// connectFacebook kept for backward compatibility but now handled by openNativeApp
 function connectFacebook() {
-    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-        window.location.href = "fb://";
-        setTimeout(function() {
-            window.open("https://www.facebook.com", "_blank");
-        }, 2000);
-    } else {
-        window.open("https://www.facebook.com", "_blank");
-    }
-    var linkInput = document.getElementById("link-facebook");
-    linkInput.removeAttribute("readonly");
-    linkInput.placeholder =" Paste your Facebook profile link here...";
-    linkInput.focus();
-    showToast("Copy your Facebook profile link and paste it here! 👆");
+    openNativeApp("facebook");
 }
