@@ -13,43 +13,48 @@ function getPlatforms(platforms) {
 
 function search() {
     document.getElementById("result").innerHTML = "";
-    var name = document.getElementById("searchInput").value.toLocaleLowerCase();
+    var name = document.getElementById("searchInput").value.toLocaleLowerCase().trim();
+    if (!name) return;
+
     db.collection("users").doc(name).get().then(function(doc) {
         if (doc.exists) {
             var user = doc.data();
-            var modalAvatar = document.getElementById("modal-avatar");
-            modalAvatar.style.backgroundImage = "";
-            modalAvatar.style.backgroundSize = "";
-            modalAvatar.style.backgroundPosition = "";
-            document.getElementById("modal-avatar").innerHTML = user.name.charAt(0);
-            if (user.photo) {
-                var modalAvatar = document.getElementById("modal-avatar");
-                modalAvatar.innerHTML = "";
-                modalAvatar.style.backgroundImage = "url(" + user.photo + ")";
-                modalAvatar.style.backgroundSize = "cover";
-                modalAvatar.style.backgroundPosition = "center";
-            } else {
-                var modalAvatar = document.getElementById("modal-avatar");
-                modalAvatar.innerHTML = user.name.charAt(0);
-                modalAvatar.style.backgroundImage = "";
-            }
-            currentModalKey = name;
-            document.getElementById("modal-share-btn").style.display = "block";
-            document.getElementById("modal-handle").innerHTML = user.handle;
-            document.getElementById("modal-location").innerHTML = user.location;
-            document.getElementById("modal-verified").style.display = "inline-block";
 
+            // ── Avatar ──
+            var av = document.getElementById("modal-avatar");
+            av.style.backgroundImage = "";
+            av.style.backgroundSize = "";
+            av.style.backgroundPosition = "";
+            av.innerHTML = user.name.charAt(0);
+            if (user.photo) {
+                av.innerHTML = "";
+                av.style.backgroundImage = "url(" + user.photo + ")";
+                av.style.backgroundSize = "cover";
+                av.style.backgroundPosition = "center";
+            }
+
+            // ── Header info ──
+            currentModalKey = name;
+            document.getElementById("modal-name").innerHTML = user.name;
+            document.getElementById("modal-handle").innerHTML = user.handle;
+            document.getElementById("modal-location").innerHTML =
+                "<i class='fas fa-location-dot' style='font-size:11px;color:#57606a;'></i> " + user.location;
+            document.getElementById("modal-verified").style.display = "inline-flex";
+            document.getElementById("modal-share-btn").style.display = "flex";
+
+            // ── Category config ──
             var categoryLabels = {
-                "personal": "👤 Personal",
-                "business": "💼 Business",
+                "personal":  "👤 Personal",
+                "business":  "💼 Business",
                 "messaging": "💬 Messaging",
-                "groups": "👥 Groups & Channels",
+                "groups":    "👥 Groups & Channels",
                 "ecommerce": "🛒 E-Commerce",
-                "phone": "📞 Phone",
-                "email": "📧 Email",
-                "other": "🔗 Other"
+                "phone":     "📞 Phone",
+                "email":     "📧 Email",
+                "other":     "🔗 Other"
             };
 
+            // Group apps by category
             var grouped = {};
             for (var i = 0; i < user.apps.length; i++) {
                 var app = user.apps[i];
@@ -59,70 +64,95 @@ function search() {
             }
 
             var appsHTML = "";
-            var catOrder = ["personal", "business", "messaging", "groups", "ecommerce", "phone", "email", "other"];
+            var catOrder = ["personal","business","messaging","groups","ecommerce","phone","email","other"];
+
             for (var c = 0; c < catOrder.length; c++) {
                 var cat = catOrder[c];
                 if (!grouped[cat]) continue;
-                appsHTML += "<div style='width:100%; margin-bottom:16px; clear:both;'>";
-                appsHTML += "<p style='color:#57606a; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin:0 0 8px; font-weight:600;'>" + categoryLabels[cat] + "</p>";
-                appsHTML += "<div style='display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%;'>";
+
+                // Category header
+                appsHTML += "<div style='margin-bottom:20px;'>";
+                appsHTML += "<p style='font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#8c959f;margin:0 0 10px;display:flex;align-items:center;gap:6px;'>" + categoryLabels[cat] + "</p>";
+                appsHTML += "<div style='display:grid;grid-template-columns:repeat(4,1fr);gap:8px;'>";
+
                 for (var i = 0; i < grouped[cat].length; i++) {
                     var app = grouped[cat][i];
+
+                    // Build link
                     var link = "#";
                     if (app.link) {
-                        if (app.icon === "fa-envelope") {
-                            link = "mailto:" + app.link;
-                        } else if (app.icon === "fa-whatsapp") {
-                            link = "https://wa.me/" + app.link.replace(/\D/g, "");
-                        } else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") {
-                            link = "tel:" + app.link;
-                        } else {
-                            link = app.link;
-                        }
+                        if (app.icon === "fa-envelope")                              link = "mailto:" + app.link;
+                        else if (app.icon === "fa-whatsapp")                         link = "https://wa.me/" + app.link.replace(/\D/g, "");
+                        else if (app.icon === "fa-mobile-alt" || app.icon === "fa-phone") link = "tel:" + app.link;
+                        else                                                          link = app.link;
                     }
-                    var iconClass = ["fa-mobile-alt", "fa-phone", "fa-envelope", "fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
-                    var iconHTML = "";
-                    if (app.name === "gmail" || app.name === "yahoo" || app.name === "outlook" || app.name === "icloud") {
-                        var imgUrls = {
-                            "gmail": "https://www.google.com/favicon.ico",
-                            "yahoo": "https://www.yahoo.com/favicon.ico",
-                            "outlook": "https://outlook.live.com/favicon.ico",
-                            "icloud": "https://www.icloud.com/favicon.ico"
-                        };
-                        iconHTML = "<img src='" + imgUrls[app.name] + "' style='width:22px; height:22px; border-radius:4px;'>";
-                    } else {
-                        iconHTML = "<i class='" + iconClass + " " + app.icon + "' style='font-size:22px; color:white;'></i>";
-                    }
-                    appsHTML += "<div onclick=\"window.open('" + link + "', '_blank')\" style='background:" + app.color + "; width:60px; height:60px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; gap:4px;'>" +
+
+                    var iconClass = ["fa-mobile-alt","fa-phone","fa-envelope","fa-comment"].indexOf(app.icon) !== -1 ? "fas" : "fab";
+                    var imgUrls   = { "gmail":"https://www.google.com/favicon.ico","yahoo":"https://www.yahoo.com/favicon.ico","outlook":"https://outlook.live.com/favicon.ico","icloud":"https://www.icloud.com/favicon.ico" };
+                    var isEmail   = imgUrls[app.name];
+
+                    var iconHTML = isEmail
+                        ? "<img src='" + imgUrls[app.name] + "' style='width:22px;height:22px;border-radius:4px;'>"
+                        : "<i class='" + iconClass + " " + app.icon + "' style='font-size:22px;color:white;'></i>";
+
+                    // Nice readable labels
+                    var labelMap = {
+                        "instagram":"Instagram","facebook":"Facebook","tiktok":"TikTok",
+                        "x":"X","youtube":"YouTube","snapchat":"Snapchat","pinterest":"Pinterest",
+                        "fbpage":"FB Page","instabusiness":"Insta Business","tiktokbusiness":"TikTok Biz",
+                        "linkedin":"LinkedIn","shopify":"Shopify","whatsapp":"WhatsApp",
+                        "whatsappbusiness":"WA Business","telegram":"Telegram","signal":"Signal",
+                        "messenger":"Messenger","whatsappgroup":"WA Group","telegramgroup":"TG Group",
+                        "telegramchannel":"TG Channel","discord":"Discord","fbgroup":"FB Group",
+                        "youtubechannel":"YT Channel","amazon":"Amazon","ebay":"eBay","etsy":"Etsy",
+                        "tiktokshop":"TikTok Shop","fbmarketplace":"FB Market","instashop":"Insta Shop",
+                        "mobile":"Mobile","businessphone":"Biz Phone","gmail":"Gmail",
+                        "yahoo":"Yahoo","outlook":"Outlook","icloud":"iCloud"
+                    };
+                    var label = labelMap[app.name.toLowerCase()] || (app.name.charAt(0).toUpperCase() + app.name.slice(1));
+
+                    appsHTML +=
+                        "<div onclick=\"window.open('" + link + "','_blank')\" " +
+                        "style='background:" + app.color + ";border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:64px;cursor:pointer;gap:4px;transition:transform 0.15s,box-shadow 0.15s;'" +
+                        " onmouseover=\"this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.2)'\"" +
+                        " onmouseout=\"this.style.transform='scale(1)';this.style.boxShadow='none'\">" +
                         iconHTML +
-                        "<span style='font-size:8px; color:rgba(255,255,255,0.9); text-align:center;'>" + app.name + "</span>" +
-                    "</div>";
+                        "<span style='font-size:9px;color:rgba(255,255,255,0.95);text-align:center;font-weight:600;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;'>" + label + "</span>" +
+                        "</div>";
                 }
+
                 appsHTML += "</div></div>";
             }
 
-            document.getElementById("modal-apps").innerHTML = "<div style='display:flex; flex-direction:column; gap:4px;'>" + appsHTML + "</div>";
-            document.getElementById("searchModal").style.display = "flex";
+            document.getElementById("modal-apps").innerHTML = "<div style='background:#ffffff;border:1px solid #d0d7de;border-radius:12px;padding:20px;'>" + appsHTML + "</div>";
+            document.getElementById("searchModal").style.display = "block";
+            document.body.style.overflow = "hidden";
 
         } else {
-            document.getElementById("modal-avatar").innerHTML = "?";
+            // ── Not found ──
+            document.getElementById("modal-name").innerHTML = "";
             document.getElementById("modal-handle").innerHTML = "";
             document.getElementById("modal-location").innerHTML = "";
             document.getElementById("modal-verified").style.display = "none";
-            document.getElementById("result").innerHTML =
-                "<div style='text-align:center; padding:20px 0;'>" +
-                "<div style='font-size:40px; margin-bottom:12px;'>🔍</div>" +
-                "<p style='color:#24292f; font-size:16px; font-weight:600; margin-bottom:8px;'>No profile found</p>" +
-                "<p style='color:#57606a; font-size:13px;'>\"" + name + "\" is not on PeeP yet</p>" +
-                "</div>";
-            document.getElementById("modal-apps").innerHTML = "";
             document.getElementById("modal-share-btn").style.display = "none";
-            document.getElementById("searchModal").style.display = "flex";
+            document.getElementById("modal-avatar").innerHTML = "?";
+            document.getElementById("modal-avatar").style.backgroundImage = "";
+            document.getElementById("modal-apps").innerHTML = "";
+            document.getElementById("result").innerHTML =
+                "<div style='text-align:center;padding:40px 0;'>" +
+                "<div style='font-size:48px;margin-bottom:16px;'>🔍</div>" +
+                "<p style='color:#24292f;font-size:17px;font-weight:700;margin-bottom:8px;'>No profile found</p>" +
+                "<p style='color:#57606a;font-size:13px;'>" + name + " is not on PeeP yet</p>" +
+                "<button onclick=\"showAuth('register')\" style='margin-top:20px;padding:10px 24px;border-radius:8px;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit;'>Claim @" + name + "</button>" +
+                "</div>";
+            document.getElementById("searchModal").style.display = "block";
+            document.body.style.overflow = "hidden";
         }
     }).catch(function(error) {
         showToast("Error: " + error);
     });
 }
+
 
 function register() {
     var email = document.getElementById("regEmail").value;
@@ -433,6 +463,7 @@ function clearSearch() {
     document.getElementById("searchInput").value = "";
     document.getElementById("searchModal").style.display = "none";
     document.getElementById("result").innerHTML = "";
+    document.body.style.overflow = "";
 }
 
 function copyLink() {
