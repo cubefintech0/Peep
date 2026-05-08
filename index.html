@@ -1212,6 +1212,10 @@ showAuth = function(type) {
         document.querySelectorAll('.reg-plat-btn').forEach(function(b){ b.classList.remove('sel'); });
         document.getElementById('reg-sel-badge').style.display = 'none';
     }
+    if (type === 'login') {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('register-form').style.display = 'none';
+    }
 };
 
 // ══════════════════════════════════════════

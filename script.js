@@ -896,18 +896,18 @@ function connectFacebook() {
 }
 
 function sendContact() {
-    var name  = document.getElementById('contactName').value.trim();
-    var email = document.getElementById('contactEmail').value.trim();
+    var name    = document.getElementById('contactName').value.trim();
+    var email   = document.getElementById('contactEmail').value.trim();
     var message = document.getElementById('contactMessage').value.trim();
-    if (!name || !email || !message) { showToast}('please fill all fields!'); return; }
-    windows.location.href ='mailto.hello@peep.com?subject=PeeP Contact from '
+    if (!name || !email || !message) { showToast('Please fill all fields!'); return; }
+    window.location.href = 'mailto:hello@peep.com?subject=PeeP Contact from ' + name + '&body=' + encodeURIComponent(message + '\n\nFrom: ' + name + '\nEmail: ' + email);
     showToast('✓ Opening your email app...');
 }
 
 function toggleFaq(btn) {
     var answer = btn.nextElementSibling;
     var arrow = btn.querySelector('span');
-    if (answer.style.display === 'none');
+    if (answer.style.display === 'none') {
         answer.style.display = 'block';
         arrow.innerHTML ='▲';
         btn.style.background = '#eaf5ff';
