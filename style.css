@@ -487,6 +487,10 @@ body {
         font-size: 13px !important;
     }
 
+    .navbar a:hover {
+        color: 667eea !important;
+    }
+
     /* Hero Section */
     .hero {
         padding: 40px 16px 20px;

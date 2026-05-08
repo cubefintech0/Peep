@@ -16,6 +16,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 14px;
             min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
         /* ── NAVBAR ── */
@@ -261,12 +262,21 @@
 <div id="landing-page">
     <nav class="navbar">
         <div class="logo">PeeP</div>
+
+        <ul style="list-style: none; display:flex; gap:28px; margin:0; padding:0;">
+            <li><a href="#home"     style="text-decoration:none; color:#57606a; font-size:14px; font-weight:500;">Home</a></li>
+            <li><a href="#about"    style="text-decoration:none; color:#57606a; font-size:14px; font-weight:500;">About</a></li>
+            <li><a href="#features" style="text-decoration:none; color:#57606a; font-size:14px; font-weight:500;">Features</a></li>
+            <li><a href="#contact"  style="text-decoration:none; color:#57606a; font-size:14px; font-weight:500;">Contact</a></li>
+            
+        </ul>
+
         <div style="display:flex;gap:8px;">
             <button class="nav-btn" onclick="showAuth('login')">Sign in</button>
             <button class="nav-btn primary" onclick="showAuth('register')">Join PeeP</button>
         </div>
     </nav>
-    <div class="hero">
+    <div class="hero" id="home">
         <div class="hero-badge">🌐 Your Digital Passport</div>
         <h1>One Identity. Every Platform.<br>Total Control.</h1>
         <p>Your online world is scattered. PeeP brings it all together — one verified profile, every platform, always in your control.</p>
@@ -275,7 +285,7 @@
             <button onclick="search()">Search</button>
         </div>
     </div>
-    <div class="features">
+    <div class="features" id="features">
         <div class="feature-card"><div class="feature-icon">🔗</div><h3>All in one place</h3><p>Instagram, TikTok, LinkedIn, Amazon — every platform you own, in one verified profile.</p></div>
         <div class="feature-card"><div class="feature-icon">✓</div><h3>Verified identity</h3><p>People know it's really you — no fakes, no confusion, just your real verified digital presence.</p></div>
         <div class="feature-card"><div class="feature-icon">🔒</div><h3>You own your data</h3><p>Decentralized and secure. No company controls your identity — only you do.</p></div>
@@ -672,9 +682,20 @@
 
 <div id="toast"><span id="toast-message">Message</span></div>
 
-<footer>
+<footer id="contact">
     <div style="font-size:18px;font-weight:700;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;">PeeP</div>
     <p style="margin-bottom:4px;">One identity. Every platform. Yours forever.</p>
+
+    <div style="display:flex; justify-content: center; gap:24px; margin-bottom: 16px;">
+        <a href="mailto:hello@peep.com"
+            style="text-decoration: none; color:#57606a; font-size:13px; display:flex; align-items:center; gap:6px;">
+             <i class="fas fa-envelope" style="color:#667eea;"></i>hello@peep.com
+        </a>
+        <a href="tel:+447774802170"
+            style="text-decoration:none; color:#57606a; font-size:13px; display:flex; align-items:center; gap:6px;">
+             <i class="fas fa-phone" style="color:#667eea;"></i> +44 777 480 2170         
+        </a>
+    </div>
     <p>© 2026 PeeP. All rights reserved.</p>
 </footer>
 
