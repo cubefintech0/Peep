@@ -477,6 +477,9 @@ body {
     .navbar {
         padding: 16px 20px;
     }
+    #features> div> div> div[style*="grid"] {
+        grid-template-columns: 1fr !important;
+    }
 
     .logo {
         font-size: 20px;
@@ -488,7 +491,7 @@ body {
     }
 
     .navbar a:hover {
-        color: 667eea !important;
+        color: #667eea !important;
     }
 
     /* Hero Section */

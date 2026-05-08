@@ -894,3 +894,26 @@ function forgotPassword() {
 function connectFacebook() {
     openNativeApp("facebook");
 }
+
+function sendContact() {
+    var name  = document.getElementById('contactName').value.trim();
+    var email = document.getElementById('contactEmail').value.trim();
+    var message = document.getElementById('contactMessage').value.trim();
+    if (!name || !email || !message) { showToast}('please fill all fields!'); return; }
+    windows.location.href ='mailto.hello@peep.com?subject=PeeP Contact from '
+    showToast('✓ Opening your email app...');
+}
+
+function toggleFaq(btn) {
+    var answer = btn.nextElementSibling;
+    var arrow = btn.querySelector('span');
+    if (answer.style.display === 'none');
+        answer.style.display = 'block';
+        arrow.innerHTML ='▲';
+        btn.style.background = '#eaf5ff';
+    } else {
+        answer.style.display = 'none';
+        arrow.innerHTML = '▼';
+        btn.style.background = 'f6f8fa';
+    }
+}
